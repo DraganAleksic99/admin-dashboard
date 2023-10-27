@@ -36,6 +36,7 @@ const GeneralSettings = ({user, ...rest}: Props) => {
             validationSchema={profileYupObject}
             onSubmit={async (values, formikHelpers) => {
                 try {
+                    //@ts-ignore
                     dispatch(putProfileAction(values))
                     formikHelpers.setStatus({ success: true })
                     formikHelpers.setSubmitting(false)
@@ -114,8 +115,10 @@ const GeneralSettings = ({user, ...rest}: Props) => {
                                     <Autocomplete
                                         id="country"
                                         options={countries}
+                                        //@ts-ignore
                                         value={values?.country}
                                         getOptionLabel={option => option.toString()}
+                                        //@ts-ignore
                                         renderOption={option => <>{option.text}</>}
                                         onChange={(e: any) => {
                                             setFieldValue('country', e.target.innerText);

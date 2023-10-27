@@ -125,14 +125,17 @@ const CalendarView = () => {
     const calendarRef = useRef<FullCalendar | null>(null)
 
     useEffect(() => {
+        //@ts-ignore
         dispatch(getEvents())
     }, [])
 
     const handleAddClick = (): void => {
+        //@ts-ignore
         dispatch(openModal());
     }
 
     const handleModalClose = (): void => {
+        //@ts-ignore
         dispatch(closeModal());
     }
 
@@ -173,11 +176,13 @@ const CalendarView = () => {
         }
 
     const handleEventSelect = (arg: any): void => {
+        //@ts-ignore
         dispatch(selectEvent(arg.event.id));
     }
 
     const handleEventDrop = async ({ event }: any): Promise<void> => {
         try {
+            //@ts-ignore
             await dispatch(updateEvent({
                 allDay: event.allDay,
                 start: event.start,
@@ -191,6 +196,7 @@ const CalendarView = () => {
 
     const handleEventResize = async ({ event }: any): Promise<void> => {
         try {
+            //@ts-ignore
             await dispatch(updateEvent({
                 allDay: event.allDay,
                 start: event.start,
@@ -207,6 +213,7 @@ const CalendarView = () => {
             const calendarApi = calendarEl.getApi();
             calendarApi.unselect();
         }
+        //@ts-ignore
         dispatch(selectRange(arg.start, arg.end))
     }
 

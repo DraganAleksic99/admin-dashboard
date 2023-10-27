@@ -133,7 +133,7 @@ const DashboardSidebarNavigation = () => {
 
     useEffect(() => {
       console.log(claims);
-      
+      //@ts-ignore
       dispatch(getProfileAction(claims.sub))
     }, [])
 

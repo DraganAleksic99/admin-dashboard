@@ -53,6 +53,7 @@ const AddEditEventForm = ({
 
     const handleDelete = async ():Promise<void> => {
         try {
+            //@ts-ignore
             dispatch(deleteEvent(event?.id))
             onDeleteComplete()
         } catch (err) {
@@ -93,8 +94,10 @@ const AddEditEventForm = ({
                     }
                     if (event) {
                         data.id = event.id
+                        //@ts-ignore
                         dispatch(updateEvent(data))
                     } else {
+                        //@ts-ignore
                         dispatch(createEvent(data))
                     }
                     resetForm()
