@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import './App.css'
+import { BrowserRouter } from 'react-router-dom'
+import AppRoutes from './routes'
+import { GlobalStyle } from './styles/global-styles'
+import { Helmet, HelmetProvider } from 'react-helmet-async'
+import MainLayout from './layouts/main-layout'
+import 'react-quill/dist/quill.snow.css'
+import { SnackbarProvider } from 'notistack'
+import { Provider } from 'react-redux'
+import { configureAppStore } from './store/configureStore'
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+
+const store = configureAppStore()
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Provider store={store}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <LocalizationProvider dateAdapter={AdapterMoment} >
+            <SnackbarProvider dense maxSnack={3}>
+              <Helmet
+                titleTemplate="%s - React Boilerplate"
+                defaultTitle="React Boilerplate"
+                >
+                <meta name="description" content="A React Boilerplate application" />
+              </Helmet>
+              <MainLayout>
+                <AppRoutes />
+              </MainLayout>
+              <GlobalStyle />
+            </SnackbarProvider>
+          </LocalizationProvider>
+          </BrowserRouter>
+        </HelmetProvider>
+    </Provider>
+  )
 }
 
 export default App;
