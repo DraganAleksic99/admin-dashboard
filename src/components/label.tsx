@@ -1,50 +1,50 @@
-import React, { ReactNode} from 'react';
+import React, { ReactNode } from 'react'
 import { styled } from '@mui/material'
 import { alpha } from '@mui/material'
 
 type Props = {
-    className?: string;
-    color?: 'primary' | 'secondary' | 'error' | 'warning' | 'success';
-    children?: ReactNode;
-    style?: {};
-};
-
-const Label = ({color = 'secondary', children, style, ...rest }: Props) => {
-    return (
-        <StyledSpan color={color} {...rest}>
-            { children }
-        </StyledSpan>
-    )
+  className?: string
+  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'success'
+  children?: ReactNode
+  style?: {}
 }
 
-const StyledSpan = styled('span')(({theme, color}) => {
-    let colorValue, backgroundValue;
+const Label = ({ color = 'secondary', children, style, ...rest }: Props) => {
+  return (
+    <StyledSpan color={color} {...rest}>
+      {children}
+    </StyledSpan>
+  )
+}
 
-    switch(color) {
-        case 'primary':
-          colorValue = theme.palette.primary.main;
-          backgroundValue = alpha(theme.palette.primary.main, 0.08)
-          break;
-        case 'secondary':
-          colorValue = theme.palette.secondary.main;
-          backgroundValue = alpha(theme.palette.secondary.main, 0.08)
-          break;
-        case 'error':
-          colorValue = theme.palette.error.main;
-          backgroundValue = alpha(theme.palette.error.main, 0.08)
-          break;
-        case 'warning':
-          colorValue = theme.palette.warning.main;
-          backgroundValue = alpha(theme.palette.warning.main, 0.08)
-          break;
-        case 'success':
-          colorValue = theme.palette.success.main;
-          backgroundValue = alpha(theme.palette.success.main, 0.08)
-          break;
-        default:
-          colorValue = 'inherit'
-      }
-    return {
+const StyledSpan = styled('span')(({ theme, color }) => {
+  let colorValue, backgroundValue
+
+  switch (color) {
+    case 'primary':
+      colorValue = theme.palette.primary.main
+      backgroundValue = alpha(theme.palette.primary.main, 0.08)
+      break
+    case 'secondary':
+      colorValue = theme.palette.secondary.main
+      backgroundValue = alpha(theme.palette.secondary.main, 0.08)
+      break
+    case 'error':
+      colorValue = theme.palette.error.main
+      backgroundValue = alpha(theme.palette.error.main, 0.08)
+      break
+    case 'warning':
+      colorValue = theme.palette.warning.main
+      backgroundValue = alpha(theme.palette.warning.main, 0.08)
+      break
+    case 'success':
+      colorValue = theme.palette.success.main
+      backgroundValue = alpha(theme.palette.success.main, 0.08)
+      break
+    default:
+      colorValue = 'inherit'
+  }
+  return {
     fontFamily: theme.typography.fontFamily,
     alignItems: 'center',
     borderRadius: 2,
@@ -63,6 +63,7 @@ const StyledSpan = styled('span')(({theme, color}) => {
     textTransform: 'uppercase',
     color: colorValue,
     backgroundColor: backgroundValue
-}})
+  }
+})
 
 export default Label

@@ -1,4 +1,4 @@
 export type SaleType = {
-    name: string
-    data: number[]
+  name: string
+  data: number[]
 }

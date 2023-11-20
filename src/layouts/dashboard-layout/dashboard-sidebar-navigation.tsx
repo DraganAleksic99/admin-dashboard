@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useResolvedPath, Link } from 'react-router-dom'
-import { 
+import {
   List,
   ListItem,
   ListItemButton,
@@ -17,9 +17,9 @@ import {
   styled,
   useMediaQuery,
   Theme
- } from '@mui/material'
+} from '@mui/material'
 import SettingsIcon from '@mui/icons-material'
-import { 
+import {
   PieChart as PieChartIcon,
   ShoppingCart as ShoppingCartIcon,
   ChevronUp as ChevronUpIcon,
@@ -29,7 +29,7 @@ import {
   FilePlus as FilePlusIcon,
   LogOut as LogOutIcon,
   User as UserIcon,
-  DollarSign as DolarSignIcon,
+  DollarSign as DolarSignIcon
 } from 'react-feather'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../store/reducers'
@@ -40,21 +40,21 @@ type Props = {
   mobile: string | undefined
 }
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
-const StyledDrawer = styled(Drawer)(({theme, mobile}: Props) => ({
+const StyledDrawer = styled(Drawer)(({ theme, mobile }: Props) => ({
   width: drawerWidth,
   flexShrink: 0,
   ...(mobile && {
-      transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      overflowX: 'hidden',
-      width: theme.spacing(7) + 1,
-      [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9) + 1
-      }
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(9) + 1
+    }
   })
 }))
 
@@ -62,12 +62,12 @@ const StyledDiv = styled('div')({
   display: 'flex'
 })
 
-const StyledDrawerPaper = styled('div')(({theme, mobile}: Props) => ({
+const StyledDrawerPaper = styled('div')(({ theme, mobile }: Props) => ({
   width: drawerWidth,
   ...(mobile && {
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
@@ -83,7 +83,7 @@ const DrawerContainer = styled('div')({
 
 const Content = styled('div')(({ theme }) => ({
   flexGrow: 1,
-  padding: theme.spacing(3),
+  padding: theme.spacing(3)
 }))
 
 const StyledLink = styled(Link)({
@@ -97,13 +97,13 @@ const StyledLinkTag = styled('a')({
 })
 
 const LogoWithLink = styled(Link)({
-    display: 'flex',
-    alignItems: 'center',
-    textDecoration: 'none',
-    color: 'inherit'
+  display: 'flex',
+  alignItems: 'center',
+  textDecoration: 'none',
+  color: 'inherit'
 })
 
-const StyledListItemButton = styled(ListItemButton)(({theme}) => ({
+const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   '&&': {
     paddingLeft: theme.spacing(4)
   }
@@ -116,209 +116,203 @@ const StyledAvatar = styled(Avatar)({
 })
 
 const DashboardSidebarNavigation = () => {
-    const url = useResolvedPath("").pathname
-    const [open, setOpen] = useState(false)
-    const dispatch = useDispatch()
-    const { profile } = useSelector((state: RootState) => state.profile)
-    const { claims } = useSelector((state: RootState) => state.auth)
-    const mobileDevice = useMediaQuery('(max-width:650px)')
+  const url = useResolvedPath('').pathname
+  const [open, setOpen] = useState(false)
+  const dispatch = useDispatch()
+  const { profile } = useSelector((state: RootState) => state.profile)
+  const { claims } = useSelector((state: RootState) => state.auth)
+  const mobileDevice = useMediaQuery('(max-width:650px)')
 
-    const handleClick = () => {
-      setOpen(!open)
-    }
+  const handleClick = () => {
+    setOpen(!open)
+  }
 
-    const handleLogout = () => {
-      localStorage.clear()
-    }
+  const handleLogout = () => {
+    localStorage.clear()
+  }
 
-    useEffect(() => {
-      console.log(claims);
-      //@ts-ignore
-      dispatch(getProfileAction(claims.sub))
-    }, [])
+  useEffect(() => {
+    console.log(claims)
+    //@ts-ignore
+    dispatch(getProfileAction(claims.sub))
+  }, [])
 
-    return (
-          <StyledDiv>
-            <StyledDrawer mobile={mobileDevice ? 'true' : undefined}
-              variant='permanent'
-              anchor='left'
-            >
-              <StyledDrawerPaper mobile={mobileDevice ?'true' : undefined} />
-              { profile.name && !mobileDevice && (
-                <Box p={2}>
-                  <Box display="flex" justifyContent="center">
-                    <StyledAvatar
-                      alt="User"
-                      src={profile.avatar}
-                    />
-                  </Box>
-                  <Box mt={2} textAlign="center">
-                    <Typography>{profile.name}</Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Your tier: {profile.tier}
-                    </Typography>
-                  </Box>
-                </Box>
-              )}
+  return (
+    <StyledDiv>
+      <StyledDrawer mobile={mobileDevice ? 'true' : undefined} variant="permanent" anchor="left">
+        <StyledDrawerPaper mobile={mobileDevice ? 'true' : undefined} />
+        {profile.name && !mobileDevice && (
+          <Box p={2}>
+            <Box display="flex" justifyContent="center">
+              <StyledAvatar alt="User" src={profile.avatar} />
+            </Box>
+            <Box mt={2} textAlign="center">
+              <Typography>{profile.name}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                Your tier: {profile.tier}
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        <Divider />
+        {mobileDevice ? (
+          <DrawerContainer>
+            <List>
+              <ListSubheader>Reports</ListSubheader>
+              <StyledLink to={`/dashboard`}>
+                <ListItemButton>
+                  <ListItemIcon>
+                    <PieChartIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Dashboard'} />
+                </ListItemButton>
+              </StyledLink>
+              <ListSubheader>Management</ListSubheader>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              </ListItemButton>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <StyledLink to={`/dashboard/list-products`}>
+                    <StyledListItemButton>
+                      <ListItemIcon>
+                        <ListIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="List Products" />
+                    </StyledListItemButton>
+                  </StyledLink>
+                  <StyledLink to={`/dashboard/create-product`}>
+                    <StyledListItemButton>
+                      <ListItemIcon>
+                        <FilePlusIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Create Product" />
+                    </StyledListItemButton>
+                  </StyledLink>
+                </List>
+              </Collapse>
+              <ListSubheader>Applications</ListSubheader>
+              <StyledLink to="/dashboard/calendar">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <CalendarIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Calendar'} />
+                </ListItemButton>
+              </StyledLink>
+              <ListSubheader>Pages</ListSubheader>
+              <StyledLink to="/dashboard/account">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <UserIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Account'} />
+                </ListItemButton>
+              </StyledLink>
+              <StyledLink to="/pricing">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <DolarSignIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Pricing'} />
+                </ListItemButton>
+              </StyledLink>
+              <StyledLinkTag href="/">
+                <ListItemButton onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LogOutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'logout'} />
+                </ListItemButton>
+              </StyledLinkTag>
+            </List>
             <Divider />
-            { mobileDevice ? (
-            <DrawerContainer>
-              <List>
-                <ListSubheader>Reports</ListSubheader>
-                <StyledLink to={`/dashboard`}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <PieChartIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Dashboard'} />
-                  </ListItemButton>
-                </StyledLink>
-                <ListSubheader>Management</ListSubheader>
-                <ListItemButton onClick={handleClick}>
+          </DrawerContainer>
+        ) : (
+          <DrawerContainer>
+            <List>
+              <ListSubheader>Reports</ListSubheader>
+              <StyledLink to={`/dashboard`}>
+                <ListItemButton>
                   <ListItemIcon>
-                    <ShoppingCartIcon />
+                    <PieChartIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Products" />
-                  {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                  <ListItemText primary={'Dashboard'} />
                 </ListItemButton>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <StyledLink to={`/dashboard/list-products`}>
-                      <StyledListItemButton>
-                        <ListItemIcon>
-                          <ListIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List Products" />
-                      </StyledListItemButton>
-                    </StyledLink>
-                    <StyledLink to={`/dashboard/create-product`}>
-                      <StyledListItemButton>
-                        <ListItemIcon>
-                          <FilePlusIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Create Product" />
-                      </StyledListItemButton>
-                    </StyledLink>
-                  </List>
-                </Collapse>
-                <ListSubheader>Applications</ListSubheader>
-                <StyledLink to='/dashboard/calendar'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <CalendarIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Calendar'} />
-                  </ListItemButton>
-                </StyledLink>
-                <ListSubheader>Pages</ListSubheader>
-                <StyledLink to='/dashboard/account'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <UserIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Account'} />
-                  </ListItemButton>
-                </StyledLink>
-                <StyledLink to='/pricing'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <DolarSignIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Pricing'} />
-                  </ListItemButton>
-                </StyledLink>
-                <StyledLinkTag href='/' >
-                    <ListItemButton onClick={handleLogout}>
-                        <ListItemIcon>
-                            <LogOutIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={'logout'} />
-                    </ListItemButton>
-                </StyledLinkTag>
-              </List>
-              <Divider />
-            </DrawerContainer>
-            ) : (
-              <DrawerContainer>
-              <List>
-                <ListSubheader>Reports</ListSubheader>
-                <StyledLink to={`/dashboard`}>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <PieChartIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Dashboard'} />
-                  </ListItemButton>
-                </StyledLink>
-                <ListSubheader>Management</ListSubheader>
-                <ListItemButton onClick={handleClick}>
+              </StyledLink>
+              <ListSubheader>Management</ListSubheader>
+              <ListItemButton onClick={handleClick}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+                {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+              </ListItemButton>
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <StyledLink to={`/dashboard/list-products`}>
+                    <StyledListItemButton>
+                      <ListItemIcon>
+                        <ListIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="List Products" />
+                    </StyledListItemButton>
+                  </StyledLink>
+                  <StyledLink to={`/dashboard/create-product`}>
+                    <StyledListItemButton>
+                      <ListItemIcon>
+                        <FilePlusIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Create Product" />
+                    </StyledListItemButton>
+                  </StyledLink>
+                </List>
+              </Collapse>
+              <ListSubheader>Applications</ListSubheader>
+              <StyledLink to="/dashboard/calendar">
+                <ListItemButton>
                   <ListItemIcon>
-                    <ShoppingCartIcon />
+                    <CalendarIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Products" />
-                  {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                  <ListItemText primary={'Calendar'} />
                 </ListItemButton>
-                <Collapse in={open} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <StyledLink to={`/dashboard/list-products`}>
-                      <StyledListItemButton>
-                        <ListItemIcon>
-                          <ListIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="List Products" />
-                      </StyledListItemButton>
-                    </StyledLink>
-                    <StyledLink to={`/dashboard/create-product`}>
-                      <StyledListItemButton>
-                        <ListItemIcon>
-                          <FilePlusIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Create Product" />
-                      </StyledListItemButton>
-                    </StyledLink>
-                  </List>
-                </Collapse>
-                <ListSubheader>Applications</ListSubheader>
-                <StyledLink to='/dashboard/calendar'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <CalendarIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Calendar'} />
-                  </ListItemButton>
-                </StyledLink>
-                <ListSubheader>Pages</ListSubheader>
-                <StyledLink to='/dashboard/account'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <UserIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Account'} />
-                  </ListItemButton>
-                </StyledLink>
-                <StyledLink to='/pricing'>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <DolarSignIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={'Pricing'} />
-                  </ListItemButton>
-                </StyledLink>
-                <StyledLinkTag href='/' >
-                    <ListItemButton onClick={handleLogout}>
-                        <ListItemIcon>
-                            <LogOutIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={'logout'} />
-                    </ListItemButton>
-                </StyledLinkTag>
-              </List>
-              <Divider />
-            </DrawerContainer>
-            )}
-          </StyledDrawer>
-        </StyledDiv>
-    )
+              </StyledLink>
+              <ListSubheader>Pages</ListSubheader>
+              <StyledLink to="/dashboard/account">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <UserIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Account'} />
+                </ListItemButton>
+              </StyledLink>
+              <StyledLink to="/pricing">
+                <ListItemButton>
+                  <ListItemIcon>
+                    <DolarSignIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Pricing'} />
+                </ListItemButton>
+              </StyledLink>
+              <StyledLinkTag href="/">
+                <ListItemButton onClick={handleLogout}>
+                  <ListItemIcon>
+                    <LogOutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'logout'} />
+                </ListItemButton>
+              </StyledLinkTag>
+            </List>
+            <Divider />
+          </DrawerContainer>
+        )}
+      </StyledDrawer>
+    </StyledDiv>
+  )
 }
 
 export default DashboardSidebarNavigation

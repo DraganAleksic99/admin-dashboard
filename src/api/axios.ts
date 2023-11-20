@@ -1,17 +1,17 @@
-import axios from "axios";
+import axios from 'axios'
 
-const jsonUrl = "https://my-json-server.typicode.com"
-const gitHubUrl = "DraganAleksic99/app2"
-const api = axios.create({baseURL: `${jsonUrl}/${gitHubUrl}/`})
+const jsonUrl = 'https://my-json-server.typicode.com'
+const gitHubUrl = 'DraganAleksic99/app2'
+const api = axios.create({ baseURL: `localhost:3000/` })
 
 export default api
 
 export const EndPoints = {
-    sales: `sales`,
-    products: `products`,
-    events: `events`,
-    login: `login`,
-    register: `register`,
-    users: `users`,
-    usersDb: `users-db`
+  sales: `sales`,
+  products: `products`,
+  events: `events`,
+  login: `login`,
+  register: `register`,
+  users: `users`,
+  usersDb: `users-db`
 }

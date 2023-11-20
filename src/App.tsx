@@ -9,7 +9,7 @@ import 'react-quill/dist/quill.snow.css'
 import { SnackbarProvider } from 'notistack'
 import { Provider } from 'react-redux'
 import { configureAppStore } from './store/configureStore'
-import { LocalizationProvider } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 const store = configureAppStore()
@@ -19,12 +19,9 @@ function App() {
     <Provider store={store}>
       <HelmetProvider>
         <BrowserRouter>
-          <LocalizationProvider dateAdapter={AdapterMoment} >
+          <LocalizationProvider dateAdapter={AdapterMoment}>
             <SnackbarProvider dense maxSnack={3}>
-              <Helmet
-                titleTemplate="%s - React Boilerplate"
-                defaultTitle="React Boilerplate"
-                >
+              <Helmet titleTemplate="%s - React Boilerplate" defaultTitle="React Boilerplate">
                 <meta name="description" content="A React Boilerplate application" />
               </Helmet>
               <MainLayout>
@@ -33,10 +30,10 @@ function App() {
               <GlobalStyle />
             </SnackbarProvider>
           </LocalizationProvider>
-          </BrowserRouter>
-        </HelmetProvider>
+        </BrowserRouter>
+      </HelmetProvider>
     </Provider>
   )
 }
 
-export default App;
+export default App

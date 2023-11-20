@@ -1,12 +1,4 @@
-import { 
-  AppBar,
-  Box,
-  Toolbar,
-  Button,
-  colors,
-  styled,
-  useMediaQuery
-} from '@mui/material'
+import { AppBar, Box, Toolbar, Button, colors, styled, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/reducers'
@@ -26,36 +18,27 @@ export default function NavigationBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <StyledLink to={'/'} style={{ flexGrow: 1}} >
-            { !mobileDevice && 'LOGO'}
+          <StyledLink to={'/'} style={{ flexGrow: 1 }}>
+            {!mobileDevice && 'LOGO'}
           </StyledLink>
           <Button color="inherit">
-            <StyledLink to={'/'}>
-              Home
-            </StyledLink>
+            <StyledLink to={'/'}>Home</StyledLink>
           </Button>
           <Button color="inherit">
-            <StyledLink to={'/about'}>
-              About
-            </StyledLink>
+            <StyledLink to={'/about'}>About</StyledLink>
           </Button>
-          { claims ? (
+          {claims ? (
             <>
-            <Button color="inherit">
-              <StyledLink to={'/dashboard'}>
-                Dashboard
-              </StyledLink>
-            </Button>
-            <HeaderProfile />
+              <Button color="inherit">
+                <StyledLink to={'/dashboard'}>Dashboard</StyledLink>
+              </Button>
+              <HeaderProfile />
             </>
-            ) : (
+          ) : (
             <Button color="inherit">
-              <StyledLink to={'/login'}>
-                Login
-              </StyledLink>
+              <StyledLink to={'/login'}>Login</StyledLink>
             </Button>
-            )
-          }
+          )}
         </Toolbar>
       </AppBar>
     </Box>

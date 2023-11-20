@@ -6,46 +6,46 @@ import RegisterForm from './components/RegisterForm'
 import Page from '../../../components/pages'
 
 const LoginPage = () => {
-    const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(true)
 
-    return (
-        <Page title="Authentication">
-            <Container>
-            <Box
-                my={5}
-                display={'flex'}
-                flexDirection={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-            >
-                {isLogin ? <LoginForm /> : <RegisterForm />}
-                <Divider />
-                <Box mt={5}>
-                    Go to{' '}
-                    {isLogin ? (
-                        <Button
-                            size={'small'}
-                            color={'primary'}
-                            variant={'text'}
-                            onClick={() => setIsLogin(false)}
-                        >
-                            Register Form
-                        </Button>
-                        ) : (
-                        <Button
-                            size={'small'}
-                            color={'primary'}
-                            variant={'text'}
-                            onClick={() => setIsLogin(true)}
-                        >
-                            Login Form
-                        </Button>
-                    )}
-                </Box>
-            </Box>
-            </Container>
-        </Page>
-    )
+  return (
+    <Page title="Authentication">
+      <Container>
+        <Box
+          my={5}
+          display={'flex'}
+          flexDirection={'column'}
+          justifyContent={'center'}
+          alignItems={'center'}
+        >
+          {isLogin ? <LoginForm /> : <RegisterForm />}
+          <Divider />
+          <Box mt={5}>
+            Go to{' '}
+            {isLogin ? (
+              <Button
+                size={'small'}
+                color={'primary'}
+                variant={'text'}
+                onClick={() => setIsLogin(false)}
+              >
+                Register Form
+              </Button>
+            ) : (
+              <Button
+                size={'small'}
+                color={'primary'}
+                variant={'text'}
+                onClick={() => setIsLogin(true)}
+              >
+                Login Form
+              </Button>
+            )}
+          </Box>
+        </Box>
+      </Container>
+    </Page>
+  )
 }
 
 export default LoginPage

@@ -4,10 +4,10 @@ import Header from './Header'
 import ProductCreateForm from './ProductCreateForm'
 import Page from '../../../../components/pages'
 
-const StyledPage = styled(Page)(({theme}) => ({
-    minHeight: '100%',
-    paddingTop: theme.spacing(3),
-    paddingBottom: 100
+const StyledPage = styled(Page)(({ theme }) => ({
+  minHeight: '100%',
+  paddingTop: theme.spacing(3),
+  paddingBottom: 100
 }))
 
 const styles = {
@@ -16,14 +16,14 @@ const styles = {
 }
 
 const ProductCreateView = () => {
-    return (
-      <StyledPage styles={styles} title='Product Create'>
-        <Container maxWidth={false}>
-          <Header />
-          <ProductCreateForm />
-        </Container>
-      </StyledPage>
-    )
+  return (
+    <StyledPage styles={styles} title="Product Create">
+      <Container maxWidth={false}>
+        <Header />
+        <ProductCreateForm />
+      </Container>
+    </StyledPage>
+  )
 }
 
 export default ProductCreateView

@@ -3,24 +3,18 @@ import Header from './Header'
 import Results from './Results'
 import { getProductsAxios } from '../../../../services/productService'
 import { ProductType } from '../../../../models/product-type'
-import { 
-  Backdrop,
-  Box,
-  CircularProgress,
-  Container,
-  styled
- } from '@mui/material'
+import { Backdrop, Box, CircularProgress, Container, styled } from '@mui/material'
 import Page from '../../../../components/pages'
 
-const StyledPage = styled(Page)(({theme}) => ({
+const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   paddingTop: theme.spacing(3),
   paddingBottom: 100
 }))
 
-const StyledBackdrop = styled(Backdrop)(({theme}) => ({
+const StyledBackdrop = styled(Backdrop)(({ theme }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  color: '#fff',
+  color: '#fff'
 }))
 
 const ProductListView = () => {
@@ -32,7 +26,7 @@ const ProductListView = () => {
     try {
       const { data } = await getProductsAxios()
       setProducts(data)
-    } catch(e) {
+    } catch (e) {
       alert('Something went wrong')
     }
     handleClose()
@@ -50,16 +44,16 @@ const ProductListView = () => {
   }, [])
 
   return (
-    <StyledPage title='Product List'>
+    <StyledPage title="Product List">
       <Container maxWidth={false}>
         <Header />
-        { products && (
+        {products && (
           <Box mt={3}>
             <Results products={products} />
           </Box>
         )}
         <StyledBackdrop open={open} onClick={handleClose}>
-          <CircularProgress color='inherit' />
+          <CircularProgress color="inherit" />
         </StyledBackdrop>
       </Container>
     </StyledPage>
