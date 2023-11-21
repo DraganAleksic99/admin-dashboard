@@ -174,8 +174,8 @@ const CalendarView = () => {
 
   const handleEventDrop = async ({ event }: any): Promise<void> => {
     try {
-      //@ts-ignore
-      await dispatch(
+      dispatch(
+        //@ts-ignore
         updateEvent({
           allDay: event.allDay,
           start: event.start,
@@ -190,8 +190,8 @@ const CalendarView = () => {
 
   const handleEventResize = async ({ event }: any): Promise<void> => {
     try {
-      //@ts-ignore
-      await dispatch(
+      dispatch(
+        //@ts-ignore
         updateEvent({
           allDay: event.allDay,
           start: event.start,
