@@ -251,68 +251,6 @@
       "end": "2020-12-12T12:30:00-05:00",
       "start": "2020-11-11T12:00:27.87+00:20",
       "title": "Begin SEM"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-20T17:10:57.369Z",
-      "start": "2023-10-18T22:00:00.000Z",
-      "title": "Node.js framework - Express",
-      "id": "CLSsKbv"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-20T17:25:58.323Z",
-      "start": "2023-10-19T16:55:58.000Z",
-      "title": "Node.js framework - Express",
-      "id": "7xKGJic"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-21T22:20:17.739Z",
-      "start": "2023-10-18T21:50:17.000Z",
-      "title": "Dragan Aleksic",
-      "id": "18nlhq3"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-20T19:20:47.830Z",
-      "start": "2023-10-20T18:50:47.830Z",
-      "title": "hjgjh",
-      "id": "C6MACZE"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-20T19:25:36.247Z",
-      "start": "2023-10-20T18:55:36.247Z",
-      "title": "hjgjh",
-      "id": "9e3tVaY"
-    },
-    {
-      "allDay": false,
-      "start": "2023-10-21T19:07:07.000Z",
-      "end": "2023-10-21T19:37:07.000Z",
-      "id": "H8wAzu0"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-10-21T22:16:19.280Z",
-      "start": "2023-10-21T21:46:19.280Z",
-      "title": "hjgjh",
-      "id": "0bblT9P"
-    },
-    {
-      "allDay": false,
-      "description": "",
-      "end": "2023-11-07T23:25:16.000Z",
-      "start": "2023-10-21T21:55:16.329Z",
-      "title": "Dragan Aleksic",
-      "id": "90CY7E6"
     }
   ],
   "users": [
@@ -328,8 +266,8 @@
   "users-db": [
     {
       "id": "z4fNfs0",
-      "email": "demo@acme.io",
-      "name": "Mok Kuh Jr",
+      "email": "aleksicdragan574@gmail.com",
+      "name": "e",
       "password": "$2a$10$.vEI32nHFyG15ZACR7q/J.DNT/7iFC1Gfi2fFPMsG09LCPtwk0q/.",
       "avatar": "/images/avatar_6.png",
       "canHire": true,

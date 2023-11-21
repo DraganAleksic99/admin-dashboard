@@ -1,8 +1,6 @@
 import axios from 'axios'
 
-const jsonUrl = 'https://my-json-server.typicode.com'
-const gitHubUrl = 'DraganAleksic99/app2'
-const api = axios.create({ baseURL: `localhost:3000/` })
+const api = axios.create({ baseURL: `http://localhost:8000/` })
 
 export default api
 
