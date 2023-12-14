@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Box, Button, Container, Divider } from '@mui/material'
+import { useState } from 'react'
+import { Box, Button, Container, Divider, Typography } from '@mui/material'
 
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
@@ -9,7 +9,7 @@ const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true)
 
   return (
-    <Page title="Authentication">
+    <Page title="Authentication" styles={{ margin: 'auto' }}>
       <Container>
         <Box
           my={5}
@@ -20,7 +20,8 @@ const LoginPage = () => {
         >
           {isLogin ? <LoginForm /> : <RegisterForm />}
           <Divider />
-          <Box mt={5}>
+          <Typography mt={2}>or</Typography>
+          <Box mt={1}>
             Go to{' '}
             {isLogin ? (
               <Button

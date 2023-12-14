@@ -1,5 +1,4 @@
-import React from 'react'
-import { Grid, styled } from '@mui/material'
+import { Grid } from '@mui/material'
 import { useSelector } from 'react-redux'
 import ProfileDetails from './ProfileDetails'
 import GeneralSettings from './GeneralSettings'

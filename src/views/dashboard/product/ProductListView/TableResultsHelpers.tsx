@@ -1,4 +1,3 @@
-import React from 'react'
 import { ProductType, InventoryType } from '../../../../models/product-type'
 import Label from '../../../../components/label'
 

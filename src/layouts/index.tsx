@@ -1,4 +1,4 @@
-import React, { lazy, useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { Grid, useMediaQuery, styled, Theme } from '@mui/material'
 import DashboardSidebarNavigation from './dashboard-layout/dashboard-sidebar-navigation'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -23,22 +23,6 @@ type Props = {
   mobile: string | undefined
 }
 
-const StyledWrapperDiv = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flex: '1 1 auto',
-  overflow: 'hidden',
-  paddingTop: 64,
-  [theme.breakpoints.up('lg')]: {
-    paddingLeft: 256
-  }
-}))
-
-const StyledContentContainerDiv = styled('div')({
-  display: 'flex',
-  flex: '1 1 auto',
-  overflow: 'hidden'
-})
-
 const StyledContentDiv = styled('div')(({ theme, mobile }: Props) => ({
   display: 'flex',
   flex: '1 1 auto',
@@ -60,18 +44,14 @@ const Dashboard = () => {
   return (
     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
       <DashboardSidebarNavigation />{' '}
-      <StyledWrapperDiv>
-        <StyledContentContainerDiv>
-          <StyledContentDiv mobile={mobileDevice ? 'true' : undefined}>
-            {!extension && <DashboardDefaultContent />}
-            {extension === routes[0] && <SettingsAndPrivacy />}
-            {extension === routes[1] && <ProductListView />}
-            {extension === routes[2] && <ProductCreateView />}
-            {extension === routes[3] && <CalendarView />}
-            {extension === routes[4] && <AccountView />}
-          </StyledContentDiv>
-        </StyledContentContainerDiv>
-      </StyledWrapperDiv>
+      <StyledContentDiv mobile={mobileDevice ? 'true' : undefined}>
+        {!extension && <DashboardDefaultContent />}
+        {extension === routes[0] && <SettingsAndPrivacy />}
+        {extension === routes[1] && <ProductListView />}
+        {extension === routes[2] && <ProductCreateView />}
+        {extension === routes[3] && <CalendarView />}
+        {extension === routes[4] && <AccountView />}
+      </StyledContentDiv>
     </Grid>
   )
 }

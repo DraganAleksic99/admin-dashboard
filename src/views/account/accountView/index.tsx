@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent } from 'react'
 import { Box, Container, Divider, Tab, Tabs, styled } from '@mui/material'
 import Header from './Header'
 import General from './general'
@@ -10,7 +10,9 @@ import Page from '../../../components/pages'
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   paddingTop: theme.spacing(3),
-  paddingBottom: theme.spacing(3)
+  paddingBottom: theme.spacing(3),
+  display: 'flex',
+  flex: '1 1 auto'
 }))
 
 const AccountView = () => {
@@ -20,8 +22,8 @@ const AccountView = () => {
     setCurrentTab(value)
   }
   return (
-    <StyledPage title="Settings">
-      <Container maxWidth="lg">
+    <StyledPage title="Account">
+      <Container maxWidth={false}>
         <Header />
         <Box mt={3}>
           <Tabs

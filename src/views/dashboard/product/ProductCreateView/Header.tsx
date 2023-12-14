@@ -1,11 +1,10 @@
-import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { NavigateNext } from '@mui/icons-material'
-import { Breadcrumbs, Button, Grid, Link, Typography, Box, styled } from '@mui/material'
+import { Breadcrumbs, Button, Grid, Link, Typography, Box } from '@mui/material'
 
 const Header = () => {
   return (
-    <Grid container justifyContent="space-between" spacing={3}>
+    <Grid container justifyContent="space-between" spacing={3} mb={3}>
       <Grid item>
         <Box mb={2}>
           <Breadcrumbs separator={<NavigateNext fontSize="small" />} aria-label="breadcrumb">
@@ -20,11 +19,16 @@ const Header = () => {
           </Breadcrumbs>
         </Box>
         <Typography variant="h4" color="textPrimary">
-          Create a New Product
+          Create new product
         </Typography>
       </Grid>
       <Grid item>
-        <Button component={RouterLink} to="/dashboard/list-products">
+        <Button
+          component={RouterLink}
+          to="/dashboard/list-products"
+          color="primary"
+          variant="contained"
+        >
           Cancel
         </Button>
       </Grid>

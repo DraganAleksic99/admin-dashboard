@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { useResolvedPath, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   List,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Drawer,
-  Toolbar,
   Divider,
   Collapse,
   ListSubheader,
@@ -18,7 +16,6 @@ import {
   useMediaQuery,
   Theme
 } from '@mui/material'
-import SettingsIcon from '@mui/icons-material'
 import {
   PieChart as PieChartIcon,
   ShoppingCart as ShoppingCartIcon,
@@ -81,24 +78,12 @@ const DrawerContainer = styled('div')({
   overflow: 'auto'
 })
 
-const Content = styled('div')(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(3)
-}))
-
 const StyledLink = styled(Link)({
   textDecoration: 'none',
   color: 'inherit'
 })
 
 const StyledLinkTag = styled('a')({
-  textDecoration: 'none',
-  color: 'inherit'
-})
-
-const LogoWithLink = styled(Link)({
-  display: 'flex',
-  alignItems: 'center',
   textDecoration: 'none',
   color: 'inherit'
 })
@@ -116,7 +101,6 @@ const StyledAvatar = styled(Avatar)({
 })
 
 const DashboardSidebarNavigation = () => {
-  const url = useResolvedPath('').pathname
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
   const { profile } = useSelector((state: RootState) => state.profile)
@@ -134,7 +118,7 @@ const DashboardSidebarNavigation = () => {
   useEffect(() => {
     console.log(claims)
     //@ts-ignore
-    dispatch(getProfileAction(claims.sub))
+    dispatch(getProfileAction('z4fNfs0'))
   }, [])
 
   return (

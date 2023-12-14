@@ -7,17 +7,14 @@ import Page from '../../../../components/pages'
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   paddingTop: theme.spacing(3),
-  paddingBottom: 100
-}))
-
-const styles = {
+  paddingBottom: 100,
   display: 'flex',
   flex: '1 1 auto'
-}
+}))
 
 const ProductCreateView = () => {
   return (
-    <StyledPage styles={styles} title="Product Create">
+    <StyledPage title="Product Create">
       <Container maxWidth={false}>
         <Header />
         <ProductCreateForm />

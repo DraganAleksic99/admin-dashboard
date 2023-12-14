@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { useNavigate } from 'react-router-dom'
@@ -110,7 +110,7 @@ const LoginForm = () => {
               <Box mt={2}>
                 <Alert severity="info">
                   <div>
-                    Use <b>demo@acme.io</b> and password <b>Pass123!</b>
+                    Use <b>demo@gmail.com</b> and password <b>Pass123!</b>
                   </div>
                 </Alert>
               </Box>

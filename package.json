@@ -54,12 +54,12 @@
     "yup": "^1.3.2"
   },
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "frontend": "react-scripts start",
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "build": "react-scripts build NODE_ENV=production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "backend": "node functions/server.ts"
+    "backend": "json-server -w db.json -p 3500"
   },
   "eslintConfig": {
     "extends": [

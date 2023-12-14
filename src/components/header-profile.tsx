@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import { useState, MouseEvent } from 'react'
 import { LogOut as LogOutIcon, Hexagon as HexagonIcon } from 'react-feather'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/reducers'

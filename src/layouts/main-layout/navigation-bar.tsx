@@ -27,7 +27,7 @@ export default function NavigationBar() {
           <Button color="inherit">
             <StyledLink to={'/about'}>About</StyledLink>
           </Button>
-          {claims ? (
+          {token ? (
             <>
               <Button color="inherit">
                 <StyledLink to={'/dashboard'}>Dashboard</StyledLink>

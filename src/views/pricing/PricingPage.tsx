@@ -1,4 +1,3 @@
-import React from 'react'
 import { Box, Button, Container, Divider, Grid, Paper, Typography, styled } from '@mui/material'
 import Page from '../../components/pages'
 
@@ -9,8 +8,10 @@ type PaperProps = {
 const StyledPage = styled(Page)({
   minHeight: '100%',
   height: '100%',
-  paddingTop: 120,
-  paddingBottom: 120
+  width: '50vw',
+  margin: 'auto',
+  paddingTop: 60,
+  paddingBottom: 60
 })
 
 const StyledProductPaper = styled(Paper)<PaperProps>(({ theme, recommended }) => ({
@@ -43,13 +44,17 @@ const StyledProductImg = styled('img')(({ theme }) => ({
 }))
 
 const StyledChooseButton = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.common.white
+  backgroundColor: theme.palette.common.white,
+  color: '#3f50b5',
+  '&:hover': {
+    color: 'white'
+  }
 }))
 
 const PricingPage = () => {
   return (
     <StyledPage title="Pricing">
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <Typography align="center" variant="h2" color="textPrimary">
           Start Selling!
         </Typography>
@@ -59,11 +64,11 @@ const PricingPage = () => {
           </Typography>
         </Box>
       </Container>
-      <Box mt="160px">
+      <Box mt="80px">
         <Container maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item md={4} xs={12}>
-              <StyledProductPaper elevation={1}>
+              <StyledProductPaper elevation={3}>
                 <StyledProductImg alt="Product" src="images/products/product_standard.svg" />
                 <Typography component="h4" gutterBottom variant="overline" color="textSecondary">
                   Standard
@@ -88,24 +93,21 @@ const PricingPage = () => {
                   <Divider />
                 </Box>
                 <Typography variant="body2" color="textPrimary">
-                  20 proposals/month
+                  5 proposals/month
                   <br />
-                  10 templates
-                  <br />
-                  Analytics dashboard
-                  <br />
-                  Email alerts
+                  3 templates
+                  <br /> <br /> <br />{' '}
                 </Typography>
                 <Box my={2}>
                   <Divider />
                 </Box>
-                <StyledChooseButton variant="contained" fullWidth>
+                <Button variant="contained" fullWidth>
                   Choose
-                </StyledChooseButton>
+                </Button>
               </StyledProductPaper>
             </Grid>
             <Grid item md={4} xs={12}>
-              <StyledProductPaper recommended="true" elevation={1}>
+              <StyledProductPaper recommended="true" elevation={3}>
                 <StyledProductImg
                   alt="Product"
                   src="images/products/product_premium--outlined.svg"
@@ -145,7 +147,7 @@ const PricingPage = () => {
               </StyledProductPaper>
             </Grid>
             <Grid item md={4} xs={12}>
-              <StyledProductPaper elevation={1}>
+              <StyledProductPaper elevation={3}>
                 <StyledProductImg alt="Product" src="images/products/product_extended.svg" />
                 <Typography component="h4" gutterBottom variant="overline" color="textSecondary">
                   Extended
@@ -181,9 +183,9 @@ const PricingPage = () => {
                 <Box my={2}>
                   <Divider />
                 </Box>
-                <StyledChooseButton variant="contained" fullWidth>
+                <Button variant="contained" fullWidth>
                   Choose
-                </StyledChooseButton>
+                </Button>
               </StyledProductPaper>
             </Grid>
           </Grid>

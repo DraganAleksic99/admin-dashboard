@@ -9,7 +9,9 @@ import Page from '../../../../components/pages'
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   paddingTop: theme.spacing(3),
-  paddingBottom: 100
+  paddingBottom: 100,
+  display: 'flex',
+  flex: '1 1 auto'
 }))
 
 const StyledBackdrop = styled(Backdrop)(({ theme }) => ({

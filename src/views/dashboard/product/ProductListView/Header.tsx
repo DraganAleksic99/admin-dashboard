@@ -33,7 +33,7 @@ const Header = props => {
           </Box>
         </StyledBreadcrumbs>
         <Typography variant="h4" color="textPrimary">
-          All Products
+          All products
         </Typography>
         <Box mt={2}>
           <StyledActionButton

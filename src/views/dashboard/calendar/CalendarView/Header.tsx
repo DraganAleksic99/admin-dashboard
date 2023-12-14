@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { PlusCircle as PlusCircleIcon } from 'react-feather'
 import { NavigateNext as NavigateNextIcon } from '@mui/icons-material'
@@ -17,10 +16,14 @@ const StyledActionButton = styled(Button)(({ theme }) => ({
 
 const Header = ({ onAddClick, ...rest }: Props) => {
   return (
-    <Grid container justifyContent="space-between" spacing={3} {...rest}>
+    <Grid container justifyContent="space-between" spacing={3} mb={3} {...rest}>
       <Grid item>
-        <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-          <Link variant="body1" color="inherit" to="/app" component={RouterLink}>
+        <Breadcrumbs
+          separator={<NavigateNextIcon fontSize="small" />}
+          aria-label="breadcrumb"
+          style={{ paddingBottom: '18px' }}
+        >
+          <Link variant="body1" color="inherit" to="/dashboard" component={RouterLink}>
             Dashboard
           </Link>
           <Box>

@@ -1,3 +1,4 @@
+import axios from 'axios'
 import api, { EndPoints } from '../api/axios'
 
 export type UserModel = {
@@ -6,7 +7,10 @@ export type UserModel = {
 }
 
 export async function loginAxios(userModel: UserModel) {
-  return await api.post<{ accessToken: string }>(EndPoints.login, userModel)
+  return await axios.post<{ accessToken: string }>(
+    'https://estore-api-oz4z.onrender.com/login',
+    userModel
+  )
 }
 
 export type RegisterModel = {
@@ -18,7 +22,10 @@ export type RegisterModel = {
 }
 
 export async function registerAxios(registerModel: RegisterModel) {
-  return await api.post<{ accessToken: string }>(EndPoints.register, registerModel)
+  return await axios.post<{ accessToken: string }>(
+    'https://estore-api-oz4z.onrender.com/register',
+    registerModel
+  )
 }
 
 export type ChangePasswordModel = {

@@ -1,4 +1,3 @@
-import React from 'react'
 import {
   Box,
   Button,
@@ -9,8 +8,7 @@ import {
   Divider,
   FormControlLabel,
   Grid,
-  Typography,
-  styled
+  Typography
 } from '@mui/material'
 
 const Notifications = () => {

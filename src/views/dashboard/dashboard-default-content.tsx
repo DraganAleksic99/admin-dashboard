@@ -92,7 +92,8 @@ const getChartStyling = (theme: Theme) => ({
 })
 
 const styles = {
-  display: 'flex'
+  display: 'flex',
+  flex: '1 1 auto'
 }
 
 const DashboardDefaultContent = () => {
@@ -109,11 +110,8 @@ const DashboardDefaultContent = () => {
   }, [])
 
   return (
-    <StyledPage title="Dashboard">
+    <StyledPage title="Dashboard" styles={styles}>
       <Container maxWidth={'sm'}>
-        <Typography variant="h4" color="textPrimary">
-          Dashboard
-        </Typography>
         <Box my={5}>
           <Grid container spacing={3}>
             <Grid item xs={12}>

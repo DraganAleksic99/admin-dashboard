@@ -1,6 +1,4 @@
-import React from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
-import Dashboard from '../layouts'
+import { Navigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import { saveClaimsAction } from '../features/auth/authSlice'
@@ -19,6 +17,8 @@ const ProtectedRoute = ({ children }) => {
   const expiresAt = decoded.exp * 1000
   const dateNow = Date.now()
   const isValid = dateNow <= expiresAt
+
+  if (!isValid) localStorage.clear()
 
   return isValid ? children : <Navigate to="/login" />
 }

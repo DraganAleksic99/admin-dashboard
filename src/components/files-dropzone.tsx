@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { FileCopy as FileCopyIcon, More as MoreIcon } from '@mui/icons-material'
@@ -68,7 +68,7 @@ const FilesDropzone = props => {
     setFiles([])
   }
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     onDrop: handleDrop
   })
 

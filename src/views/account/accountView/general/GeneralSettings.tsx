@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
 import { useSnackbar } from 'notistack'
@@ -65,7 +65,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
             <CardHeader title="Profile" />
             <Divider />
             <CardContent>
-              <Grid container spacing={4}>
+              <Grid container spacing={4} maxWidth={'md'}>
                 <Grid item md={6} xs={12}>
                   <TextField
                     error={Boolean(touched.name && errors.name)}

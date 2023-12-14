@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { Box, Breadcrumbs, Typography, Link } from '@mui/material'
 import { NavigateNext } from '@mui/icons-material'
@@ -6,7 +5,11 @@ import { NavigateNext } from '@mui/icons-material'
 const Header = () => {
   return (
     <div>
-      <Breadcrumbs separator={<NavigateNext fontSize="small" />} aria-label="breadcrumb">
+      <Breadcrumbs
+        separator={<NavigateNext fontSize="small" />}
+        aria-label="breadcrumb"
+        style={{ paddingBottom: '18px' }}
+      >
         <Link color="inherit" to="/app" component={RouterLink}>
           Dashboard
         </Link>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import * as Yup from 'yup'
 import { Formik } from 'formik'
 import { useSnackbar } from 'notistack'
@@ -46,16 +46,9 @@ const Security = () => {
       })}
       onSubmit={async (values, formikHelpers) => {
         try {
-          {
-            /*Checking if the password matches or not */
-          }
           if (values.password !== values.passwordConfirm) {
             alert('Must match')
             return
-          }
-          {
-            /* If it matches, return this object with the
-                    following args to change password */
           }
           const args: ChangePasswordModel = {
             id: claims.sub,

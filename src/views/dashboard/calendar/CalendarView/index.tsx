@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import {
   getEvents,
   openModal,
@@ -26,7 +26,9 @@ import timelinePlugin from '@fullcalendar/timeline'
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
   paddingTop: theme.spacing(3),
-  paddingBottom: theme.spacing(3)
+  paddingBottom: theme.spacing(3),
+  display: 'flex',
+  flex: '1 1 auto'
 }))
 
 const StyledCalendarPaper = styled(Paper)(({ theme }) => ({
@@ -100,16 +102,9 @@ const StyledCalendarPaper = styled(Paper)(({ theme }) => ({
   }
 }))
 
-const styles = {
-  display: 'flex',
-  flex: '1 1 auto'
-}
-
 const CalendarView = () => {
   const dispatch = useDispatch()
-  const { events, error, loading, isModalOpen, selectedRange } = useSelector(
-    (state: RootState) => state.calendar
-  )
+  const { events, isModalOpen, selectedRange } = useSelector((state: RootState) => state.calendar)
   const selectedEvent = useSelector(selectedEventSelector)
   const mobileDevice = useMediaQuery('(max-width:600px)')
   const [date, setDate] = useState<Date>(moment().toDate())
@@ -214,7 +209,7 @@ const CalendarView = () => {
   }
 
   return (
-    <StyledPage title="Calendar" styles={styles}>
+    <StyledPage title="Calendar">
       <Container maxWidth={false}>
         <Header onAddClick={handleAddClick} />
         <Toolbar
@@ -260,9 +255,6 @@ const CalendarView = () => {
             />
           )}
         </Dialog>
-        {loading && <h2>Loading... </h2>}
-        {error && <h2>Something happened </h2>}
-        <ul>{events?.map(e => <li key={e.id}>{e.title} </li>)}</ul>
       </Container>
     </StyledPage>
   )
