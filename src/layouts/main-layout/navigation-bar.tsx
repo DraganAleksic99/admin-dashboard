@@ -11,7 +11,10 @@ const StyledLink = styled(Link)({
 
 export default function NavigationBar() {
   const { claims } = useSelector((state: RootState) => state.auth)
+
   const token = localStorage.getItem('token')
+  console.log(token)
+
   const mobileDevice = useMediaQuery('(max-width:650px)')
 
   return (

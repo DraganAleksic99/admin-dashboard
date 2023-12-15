@@ -116,7 +116,6 @@ const DashboardSidebarNavigation = () => {
   }
 
   useEffect(() => {
-    console.log(claims)
     //@ts-ignore
     dispatch(getProfileAction('z4fNfs0'))
   }, [])

@@ -17,7 +17,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/not-found" element={<NotFoundPage />} />
-        <Route path="*" element={<Navigate to={'not-found'} replace />} />
+        <Route path="*" element={<Navigate to="not-found" replace />} />
         <Route
           path="/dashboard/:extension?"
           element={

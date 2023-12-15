@@ -27,6 +27,8 @@ const LoginForm = () => {
   const saveUserAuthDetails = (data: { accessToken: string }) => {
     localStorage.setItem(key, data.accessToken)
     const claims: ClaimsType = jwtDecode(data.accessToken)
+    console.log(claims)
+
     dispatch(saveTokenAction(data.accessToken))
     dispatch(saveClaimsAction(claims))
   }
