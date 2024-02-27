@@ -56,7 +56,7 @@ const HeaderProfile = () => {
   }
 
   const handleLogout = () => {
-    localStorage.clear()
+    sessionStorage.clear()
   }
 
   return (

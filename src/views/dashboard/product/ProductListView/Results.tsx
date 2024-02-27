@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent } from 'react'
 import numeral from 'numeral'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import {
@@ -137,6 +137,7 @@ const Results = ({ products, ...rest }: Props) => {
       availability: value
     }))
   }
+
   const handleStockChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.persist()
     let value: any = null
@@ -165,9 +166,11 @@ const Results = ({ products, ...rest }: Props) => {
     e.persist()
     setSort(e.target.value)
   }
+
   const handleSelectAllProducts = (e: ChangeEvent<HTMLInputElement>): void => {
     setSelectedProducts(e.target.checked ? products.map(product => product.id) : [])
   }
+
   const handleSelectOneProduct = (e: ChangeEvent<HTMLInputElement>, productId: string): void => {
     if (!selectedProducts.includes(productId)) {
       setSelectedProducts(prevSelected => [...prevSelected, productId])

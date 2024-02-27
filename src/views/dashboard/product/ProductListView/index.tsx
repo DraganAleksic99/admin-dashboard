@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Header from './Header'
 import Results from './Results'
 import { getProductsAxios } from '../../../../services/productService'
@@ -23,27 +23,28 @@ const ProductListView = () => {
   const [open, setOpen] = useState(false)
   const [products, setProducts] = useState<ProductType[]>([])
 
-  const fetchProducts = async () => {
-    handleToggle()
-    try {
-      const { data } = await getProductsAxios()
-      setProducts(data)
-    } catch (e) {
-      alert('Something went wrong')
-    }
-    handleClose()
-  }
-
   const handleClose = () => {
     setOpen(false)
   }
 
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     setOpen(!open)
-  }
+  }, [open])
+
   useEffect(() => {
+    const fetchProducts = async () => {
+      handleToggle()
+      try {
+        const { data } = await getProductsAxios()
+        setProducts(data)
+      } catch (e) {
+        alert('Something went wrong')
+      }
+      handleClose()
+    }
+
     fetchProducts()
-  }, [])
+  }, [handleToggle])
 
   return (
     <StyledPage title="Product List">

@@ -18,9 +18,9 @@ import {
   Alert
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { registerAxios } from '../../../../services/authService'
 import { useDispatch } from 'react-redux'
-import jwtDecoded from 'jwt-decode'
+import jwtDecode from 'jwt-decode'
+import { registerAxios } from '../../../../services/authService'
 import { saveClaimsAction, saveTokenAction } from '../../../../features/auth/authSlice'
 import { ClaimsType } from '../../../../models/claims-type'
 
@@ -31,10 +31,10 @@ const RegisterForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const saveUserAuthDetails = (data: { accessToken: string }) => {
-    localStorage.setItem(key, data.accessToken)
-    const claims: ClaimsType = jwtDecoded(data.accessToken)
-    dispatch(saveTokenAction(data.accessToken))
+  const saveUserAuthDetails = (data: { user: { _id: string; email: string }; token: string }) => {
+    sessionStorage.setItem(key, data.token)
+    const claims: ClaimsType = jwtDecode(data.token)
+    dispatch(saveTokenAction(data.token))
     dispatch(saveClaimsAction(claims))
   }
 
@@ -66,7 +66,7 @@ const RegisterForm = () => {
           formikHelpers.setSubmitting(false)
           navigate('/dashboard')
         } catch (e: any) {
-          setError(e.response.data)
+          setError(e.response.data.message)
           setAlertVisible(true)
           formikHelpers.setStatus({ success: false })
           formikHelpers.setSubmitting(false)

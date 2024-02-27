@@ -24,12 +24,10 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const saveUserAuthDetails = (data: { accessToken: string }) => {
-    localStorage.setItem(key, data.accessToken)
-    const claims: ClaimsType = jwtDecode(data.accessToken)
-    console.log(claims)
-
-    dispatch(saveTokenAction(data.accessToken))
+  const saveUserAuthDetails = (data: { user: { _id: string; email: string }; token: string }) => {
+    sessionStorage.setItem(key, data.token)
+    const claims: ClaimsType = jwtDecode(data.token)
+    dispatch(saveTokenAction(data.token))
     dispatch(saveClaimsAction(claims))
   }
 
@@ -52,8 +50,7 @@ const LoginForm = () => {
           formikHelpers.setSubmitting(false)
           navigate('/dashboard')
         } catch (e: any) {
-          setError('Failed. Please try again.')
-          console.log(e.message)
+          setError(e.response.data.message)
           formikHelpers.setStatus({ success: false })
           formikHelpers.setSubmitting(false)
         }

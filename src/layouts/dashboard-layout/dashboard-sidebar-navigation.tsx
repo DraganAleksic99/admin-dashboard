@@ -112,7 +112,7 @@ const DashboardSidebarNavigation = () => {
   }
 
   const handleLogout = () => {
-    localStorage.clear()
+    sessionStorage.clear()
   }
 
   useEffect(() => {

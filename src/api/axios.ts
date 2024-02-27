@@ -1,10 +1,6 @@
 import axios from 'axios'
 
-// https://estore-api-oz4z.onrender.com
-
 const api = axios.create({ baseURL: 'http://localhost:3500/' })
-
-export default api
 
 export const EndPoints = {
   sales: `sales`,
@@ -15,3 +11,5 @@ export const EndPoints = {
   users: `users`,
   usersDb: `users-db`
 }
+
+export default api
