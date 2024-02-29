@@ -8,7 +8,7 @@ export const yupProductValidation = Yup.object().shape({
   isTaxable: Yup.bool().required(),
   name: Yup.string().max(255).required(),
   price: Yup.number().min(0).required(),
-  productCode: Yup.string().max(255),
+  inStock: Yup.number().min(0),
   productSku: Yup.string().max(255),
   salePrice: Yup.number().min(0)
 })

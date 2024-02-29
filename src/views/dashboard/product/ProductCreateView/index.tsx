@@ -1,4 +1,3 @@
-import React from 'react'
 import { Container, styled } from '@mui/material'
 import Header from './Header'
 import ProductCreateForm from './ProductCreateForm'

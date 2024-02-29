@@ -1,22 +1,7 @@
-import { lazy, useEffect } from 'react'
-import { Grid, useMediaQuery, styled, Theme } from '@mui/material'
+import { Suspense } from 'react'
+import { Grid, useMediaQuery, styled, Theme, CircularProgress, Backdrop } from '@mui/material'
+import { Outlet } from 'react-router-dom'
 import DashboardSidebarNavigation from './dashboard-layout/dashboard-sidebar-navigation'
-import { useParams, useNavigate } from 'react-router-dom'
-import DashboardDefaultContent from '../views/dashboard/dashboard-default-content'
-
-const SettingsAndPrivacy = lazy(() => import('../views/dashboard/settings-and-privacy'))
-const ProductListView = lazy(() => import('../views/dashboard/product/ProductListView'))
-const ProductCreateView = lazy(() => import('../views/dashboard/product/ProductCreateView'))
-const CalendarView = lazy(() => import('../views/dashboard/calendar/CalendarView'))
-const AccountView = lazy(() => import('../views/account/accountView'))
-
-const routes: string[] = [
-  'settings-and-privacy',
-  'list-products',
-  'create-product',
-  'calendar',
-  'account'
-]
 
 type Props = {
   theme?: Theme
@@ -32,25 +17,27 @@ const StyledContentDiv = styled('div')(({ theme, mobile }: Props) => ({
   })
 }))
 
-const Dashboard = () => {
-  const { extension } = useParams()
-  const navigate = useNavigate()
-  const mobileDevice = useMediaQuery('(max-width:650px)')
+const StyledBackdrop = styled(Backdrop)(({ theme }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  color: '#fff'
+}))
 
-  useEffect(() => {
-    if (!routes.includes(extension) && extension !== undefined) navigate('/not-found')
-  }, [])
+const Dashboard = () => {
+  const mobileDevice = useMediaQuery('(max-width:650px)')
 
   return (
     <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start">
-      <DashboardSidebarNavigation />{' '}
+      <DashboardSidebarNavigation />
       <StyledContentDiv mobile={mobileDevice ? 'true' : undefined}>
-        {!extension && <DashboardDefaultContent />}
-        {extension === routes[0] && <SettingsAndPrivacy />}
-        {extension === routes[1] && <ProductListView />}
-        {extension === routes[2] && <ProductCreateView />}
-        {extension === routes[3] && <CalendarView />}
-        {extension === routes[4] && <AccountView />}
+        <Suspense
+          fallback={
+            <StyledBackdrop open={true}>
+              <CircularProgress color="inherit" />
+            </StyledBackdrop>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </StyledContentDiv>
     </Grid>
   )
