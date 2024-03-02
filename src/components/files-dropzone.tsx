@@ -1,27 +1,30 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import { FileCopy as FileCopyIcon, More as MoreIcon } from '@mui/icons-material'
+import { FileCopy as FileCopyIcon } from '@mui/icons-material'
 import {
   Box,
   Button,
-  IconButton,
   Link,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Tooltip,
   Typography,
   styled
 } from '@mui/material'
 import bytesToSize from '../utils/bytes-to-size'
 
-interface Props {
+interface IDropZoneProps {
   isDragActive: boolean
 }
 
-const StyledDropZoneDiv = styled('div')<Props>(({ theme, isDragActive }) => ({
+type TProps = {
+  file: File | null
+  setFile: (file: File | null) => void
+}
+
+const StyledDropZoneDiv = styled('div')<IDropZoneProps>(({ theme, isDragActive }) => ({
   border: `1px dashed ${theme.palette.divider}`,
   padding: theme.spacing(6),
   outline: 'none',
@@ -57,23 +60,22 @@ const StyledActionsDiv = styled('div')(({ theme }) => ({
   }
 }))
 
-const FilesDropzone = props => {
-  const [files, setFiles] = useState<any[]>([])
+const FilesDropzone = ({ file, setFile }: TProps) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      setFile(acceptedFiles[0])
+    },
+    [setFile]
+  )
 
-  const handleDrop = useCallback(acceptedFiles => {
-    setFiles(prevFiles => [...prevFiles].concat(acceptedFiles))
-  }, [])
-
-  const handleRemoveAll = () => {
-    setFiles([])
+  const handleRemove = () => {
+    setFile(null)
   }
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: handleDrop
-  })
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
   return (
-    <div {...props}>
+    <div>
       <StyledDropZoneDiv {...getRootProps()}>
         <input {...getInputProps()} />
         <div>
@@ -90,35 +92,25 @@ const FilesDropzone = props => {
           </Box>
         </div>
       </StyledDropZoneDiv>
-      {files.length > 0 && (
+      {file && (
         <>
           <PerfectScrollbar options={{ suppressScrollX: true }}>
             <StyledList>
-              {files.map((file, i) => (
-                <ListItem divider={i < files.length - 1} key={i}>
-                  <ListItemIcon>
-                    <FileCopyIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={file.name}
-                    primaryTypographyProps={{ variant: 'h5' }}
-                    secondary={bytesToSize(file.size)}
-                  />
-                  <Tooltip title="More options">
-                    <IconButton edge="end">
-                      <MoreIcon />
-                    </IconButton>
-                  </Tooltip>
-                </ListItem>
-              ))}
+              <ListItem>
+                <ListItemIcon>
+                  <FileCopyIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={file.name}
+                  primaryTypographyProps={{ variant: 'h5' }}
+                  secondary={bytesToSize(file.size)}
+                />
+              </ListItem>
             </StyledList>
           </PerfectScrollbar>
           <StyledActionsDiv>
-            <Button onClick={handleRemoveAll} size="small">
-              Remove all
-            </Button>
-            <Button color="secondary" size="small" variant="contained">
-              Upload files
+            <Button onClick={handleRemove} size="small" sx={{ marginRight: '1rem' }}>
+              Remove
             </Button>
           </StyledActionsDiv>
         </>

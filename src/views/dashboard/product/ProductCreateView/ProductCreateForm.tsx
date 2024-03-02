@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { useSnackbar } from 'notistack'
@@ -26,16 +26,20 @@ import { productDefaultValue } from './schema/productDefaultValue'
 
 const categories = [
   {
-    id: 'shirts',
-    name: 'Shirts'
+    id: 'dress',
+    name: 'Dress'
   },
   {
-    id: 'phones',
-    name: 'Phones'
+    id: 'jewelry',
+    name: 'Jewelry'
   },
   {
-    id: 'cars',
-    name: 'Cars'
+    id: 'blouse',
+    name: 'Blouse'
+  },
+  {
+    id: 'beauty',
+    name: 'Beauty'
   }
 ]
 
@@ -45,7 +49,8 @@ const StyledQuillEditor = styled(QuillEditor)({
   }
 })
 
-const ProductCreatForm = props => {
+const ProductCreatForm = () => {
+  const [file, setFile] = useState<File | null>(null)
   const { enqueueSnackbar } = useSnackbar()
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -55,8 +60,23 @@ const ProductCreatForm = props => {
       initialValues={productDefaultValue}
       validationSchema={yupProductValidation}
       onSubmit={async (values, formikHelpers) => {
+        const formData = new FormData()
+        values.name && formData.append('name', values.name)
+        values.category && formData.append('category', values.category)
+        values.description && formData.append('description', values.description)
+        file && formData.append('image', file)
+        values.price && formData.append('price', values.price)
+        values.salePrice && formData.append('salePrice', values.salePrice)
+        values.quantity && formData.append('quantity', values.quantity)
+        values.taxSettings.includesTaxes &&
+          formData.append('includesTaxes', String(values.taxSettings.includesTaxes))
+        values.taxSettings.isTaxable &&
+          formData.append('isTaxable', String(values.taxSettings.isTaxable))
+        values.productSku && formData.append('productSku', values.productSku)
+        console.log(formData.values)
+
         try {
-          await postProductAxios(values)
+          await postProductAxios(formData)
           formikHelpers.setStatus({ success: true })
           formikHelpers.setSubmitting(false)
           enqueueSnackbar('Product Created', {
@@ -64,15 +84,14 @@ const ProductCreatForm = props => {
           })
           navigate('/dashboard/list-products')
         } catch (err: any) {
-          alert('Something happened. Please try again.')
-          setError(err.message)
+          setError(err.response.data.message)
           formikHelpers.setStatus({ success: false })
           formikHelpers.setSubmitting(false)
         }
       }}
     >
       {formikProps => (
-        <form onSubmit={formikProps.handleSubmit} {...props}>
+        <form onSubmit={formikProps.handleSubmit}>
           <Grid container spacing={6}>
             <Grid item xs={12} lg={8}>
               <Card>
@@ -111,7 +130,7 @@ const ProductCreatForm = props => {
                   <CardHeader title="Upload Images" />
                   <Divider />
                   <CardContent>
-                    <FilesDropzone />
+                    <FilesDropzone file={file} setFile={setFile} />
                   </CardContent>
                 </Card>
               </Box>
@@ -160,27 +179,39 @@ const ProductCreatForm = props => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={formikProps.values.isTaxable}
-                            onChange={formikProps.handleChange}
-                            value={formikProps.values.isTaxable}
-                            name="isTaxable"
+                            checked={formikProps.values.taxSettings.isTaxable}
+                            onChange={e =>
+                              formikProps.setFieldValue('taxSettings.isTaxable', e.target.checked)
+                            }
+                            value={formikProps.values.taxSettings.isTaxable}
+                            name="taxSettings.isTaxable"
                           />
                         }
                         label="Product is taxable"
                       />
                     </Box>
-                    <Box mt={2}>
+                    <Box>
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={formikProps.values.includesTaxes}
-                            onChange={formikProps.handleChange}
-                            value={formikProps.values.includesTaxes}
-                            name="includesTaxes"
+                            checked={formikProps.values.taxSettings.includesTaxes}
+                            onChange={e =>
+                              formikProps.setFieldValue(
+                                'taxSettings.includesTaxes',
+                                e.target.checked
+                              )
+                            }
+                            value={formikProps.values.taxSettings.includesTaxes}
+                            name="taxSettings.includesTaxes"
                           />
                         }
                         label="Price includes taxes"
                       />
+                      {formikProps.touched.taxSettings && formikProps.errors.taxSettings && (
+                        <FormHelperText error>
+                          {formikProps.errors.taxSettings && String(formikProps.errors.taxSettings)}
+                        </FormHelperText>
+                      )}
                     </Box>
                   </CardContent>
                 </Card>
@@ -192,7 +223,9 @@ const ProductCreatForm = props => {
                 <Divider />
                 <CardContent>
                   <TextField
+                    error={Boolean(formikProps.touched.category && formikProps.errors.category)}
                     fullWidth
+                    helperText={formikProps.touched.category && formikProps.errors.category}
                     label="Category"
                     name="category"
                     onChange={formikProps.handleChange}
@@ -201,24 +234,24 @@ const ProductCreatForm = props => {
                     value={formikProps.values.category}
                     variant="outlined"
                   >
+                    <option disabled key="empty"></option>
                     {categories.map(category => (
-                      <option key={category.id} value={category.id}>
+                      <option key={category.id} value={category.name}>
                         {category.name}
                       </option>
                     ))}
                   </TextField>
                   <Box mt={2}>
                     <TextField
-                      error={Boolean(
-                        formikProps.touched.productCode && formikProps.errors.productCode
-                      )}
+                      error={Boolean(formikProps.touched.quantity && formikProps.errors.quantity)}
                       fullWidth
-                      helperText={formikProps.touched.productCode && formikProps.errors.productCode}
-                      label="Product Code"
-                      name="productCode"
+                      helperText={formikProps.touched.quantity && formikProps.errors.quantity}
+                      label="Quantity"
+                      name="quantity"
+                      type="number"
                       onBlur={formikProps.handleBlur}
                       onChange={formikProps.handleChange}
-                      value={formikProps.values.productCode}
+                      value={formikProps.values.quantity}
                       variant="outlined"
                     />
                   </Box>

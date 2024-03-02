@@ -5,6 +5,10 @@ export async function getProductsAxios() {
   return await api.get<ProductType[]>(EndPoints.products)
 }
 
-export async function postProductAxios(product: ProductType) {
-  return await api.post<ProductType>(EndPoints.products, product)
+export async function postProductAxios(product: FormData) {
+  return await api.post<FormData>(EndPoints.products, product)
+}
+
+export async function deleteProductAxios(productIds: string[]) {
+  return await api.delete<{ message: string }>(EndPoints.products, { data: productIds })
 }

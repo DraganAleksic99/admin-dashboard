@@ -1,14 +1,21 @@
 import * as Yup from 'yup'
 
 export const yupProductValidation = Yup.object().shape({
-  category: Yup.string().max(255),
-  description: Yup.string().max(5000),
-  images: Yup.array(),
-  includesTaxes: Yup.bool().required(),
-  isTaxable: Yup.bool().required(),
   name: Yup.string().max(255).required(),
+  category: Yup.string().max(255).required(),
+  description: Yup.string().max(5000),
   price: Yup.number().min(0).required(),
-  inStock: Yup.number().min(0),
-  productSku: Yup.string().max(255),
-  salePrice: Yup.number().min(0)
+  salePrice: Yup.number().min(0),
+  quantity: Yup.number().min(0).required(),
+  taxSettings: Yup.object()
+    .shape({
+      includesTaxes: Yup.bool(),
+      isTaxable: Yup.bool()
+    })
+    .test('one of tax settings', 'product either includes taxes or is taxable', value => {
+      const { includesTaxes, isTaxable } = value
+      return includesTaxes !== isTaxable
+    })
+    .required(),
+  productSku: Yup.string().max(255).required()
 })
