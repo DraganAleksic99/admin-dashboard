@@ -3,15 +3,20 @@ export type ProductType = {
   name: string
   description: string
   category: string
-  quantity: string
+  quantity: number
   productSku: string
-  createdAt: string | number
-  updatedAt: string | number
-  image?: File | null
-  price: string
+  createdAt: string
+  updatedAt: string
+  image?: {
+    data: Buffer
+    contentType: string
+  }
+  price: number
   salePrice: string
   taxSettings: {
     includesTaxes: boolean
     isTaxable: boolean
   }
+  imageName: string
+  imageSize: string
 }

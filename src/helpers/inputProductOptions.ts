@@ -21,30 +21,7 @@ export const categoryOptions = [
   }
 ]
 
-export const availabilityOptions = [
-  {
-    id: 'all',
-    name: 'All'
-  },
-  {
-    id: 'available',
-    name: 'Available'
-  },
-  {
-    id: 'unavailable',
-    name: 'Unavailable'
-  }
-]
-
 export const sortOptions = [
-  {
-    value: 'updatedAt|desc',
-    label: 'Last update (newest first)'
-  },
-  {
-    value: 'updatedAt|asc',
-    label: 'Last update (oldest first)'
-  },
   {
     value: 'createdAt|desc',
     label: 'Creation date (newest first)'
@@ -52,5 +29,14 @@ export const sortOptions = [
   {
     value: 'createdAt|asc',
     label: 'Creation date (oldest first)'
+  },
+
+  {
+    value: 'updatedAt|desc',
+    label: 'Last update (newest first)'
+  },
+  {
+    value: 'updatedAt|asc',
+    label: 'Last update (oldest first)'
   }
 ]
