@@ -20,9 +20,10 @@ import {
 } from '@mui/material'
 import FilesDropzone from '../../../../components/files-dropzone'
 import QuillEditor from '../../../../components/quill-editor'
-import { postProductAxios } from '../../../../services/productService'
+import { postProductAxios, putProductAxios } from '../../../../services/productService'
 import { yupProductValidation } from './schema/yupProductValidation'
-import { productDefaultValue } from './schema/productDefaultValue'
+import { ProductType } from '../../../../models/product-type'
+import bytesToSize from '../../../../utils/bytes-to-size'
 
 const categories = [
   {
@@ -49,7 +50,12 @@ const StyledQuillEditor = styled(QuillEditor)({
   }
 })
 
-const ProductCreatForm = () => {
+type Props = {
+  initialValues?: ProductType
+  edit?: boolean
+}
+
+const ProductCreateForm = ({ initialValues, edit }: Props) => {
   const [file, setFile] = useState<File | null>(null)
   const { enqueueSnackbar } = useSnackbar()
   const [error, setError] = useState('')
@@ -57,29 +63,44 @@ const ProductCreatForm = () => {
 
   return (
     <Formik
-      initialValues={productDefaultValue}
+      initialValues={initialValues}
       validationSchema={yupProductValidation}
       onSubmit={async (values, formikHelpers) => {
+        const isEditing = edit
+        const isCreating = !edit
         const formData = new FormData()
+
         values.name && formData.append('name', values.name)
         values.category && formData.append('category', values.category)
         values.description && formData.append('description', values.description)
+
         file && formData.append('image', file)
+        file && formData.append('imageName', file.name)
+        file && formData.append('imageSize', bytesToSize(file.size))
+
         values.price && formData.append('price', values.price)
         values.salePrice && formData.append('salePrice', values.salePrice)
         values.quantity && formData.append('quantity', values.quantity)
         values.taxSettings.includesTaxes &&
-          formData.append('includesTaxes', String(values.taxSettings.includesTaxes))
+          formData.append('taxSettings[includesTaxes]', String(values.taxSettings.includesTaxes))
         values.taxSettings.isTaxable &&
-          formData.append('isTaxable', String(values.taxSettings.isTaxable))
+          formData.append('taxSettings[isTaxable]', String(values.taxSettings.isTaxable))
         values.productSku && formData.append('productSku', values.productSku)
-        console.log(formData.values)
 
         try {
-          await postProductAxios(formData)
+          let response
+
+          if (isEditing) {
+            response = await putProductAxios(formData, initialValues._id)
+          }
+
+          if (isCreating) {
+            response = await postProductAxios(formData)
+          }
+
           formikHelpers.setStatus({ success: true })
           formikHelpers.setSubmitting(false)
-          enqueueSnackbar('Product Created', {
+          enqueueSnackbar(`${response.data.message}`, {
             variant: 'success'
           })
           navigate('/dashboard/list-products')
@@ -130,7 +151,12 @@ const ProductCreatForm = () => {
                   <CardHeader title="Upload Images" />
                   <Divider />
                   <CardContent>
-                    <FilesDropzone file={file} setFile={setFile} />
+                    <FilesDropzone
+                      imageName={initialValues.imageName}
+                      imageSize={initialValues.imageSize}
+                      file={file}
+                      setFile={setFile}
+                    />
                   </CardContent>
                 </Card>
               </Box>
@@ -179,11 +205,11 @@ const ProductCreatForm = () => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={formikProps.values.taxSettings.isTaxable}
+                            checked={formikProps.values.taxSettings?.isTaxable}
                             onChange={e =>
                               formikProps.setFieldValue('taxSettings.isTaxable', e.target.checked)
                             }
-                            value={formikProps.values.taxSettings.isTaxable}
+                            value={formikProps.values.taxSettings?.isTaxable}
                             name="taxSettings.isTaxable"
                           />
                         }
@@ -194,14 +220,14 @@ const ProductCreatForm = () => {
                       <FormControlLabel
                         control={
                           <Checkbox
-                            checked={formikProps.values.taxSettings.includesTaxes}
+                            checked={formikProps.values.taxSettings?.includesTaxes}
                             onChange={e =>
                               formikProps.setFieldValue(
                                 'taxSettings.includesTaxes',
                                 e.target.checked
                               )
                             }
-                            value={formikProps.values.taxSettings.includesTaxes}
+                            value={formikProps.values.taxSettings?.includesTaxes}
                             name="taxSettings.includesTaxes"
                           />
                         }
@@ -286,7 +312,7 @@ const ProductCreatForm = () => {
               type="submit"
               disabled={formikProps.isSubmitting}
             >
-              Create product
+              {edit ? 'Edit' : 'Create'} product
             </Button>
           </Box>
         </form>
@@ -295,4 +321,4 @@ const ProductCreatForm = () => {
   )
 }
 
-export default ProductCreatForm
+export default ProductCreateForm

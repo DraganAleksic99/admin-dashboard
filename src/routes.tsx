@@ -4,6 +4,7 @@ import Home from './views/Home'
 import { LinearProgress } from '@mui/material'
 import ProtectedRoute from './components/protected-route'
 import DashboardDefaultContent from './views/dashboard/dashboard-default-content'
+import ProductUpdateView from './views/dashboard/product/ProductUpdateView'
 
 const About = lazy(() => import('./views/About'))
 const Dashboard = lazy(() => import('./layouts'))
@@ -34,6 +35,7 @@ const AppRoutes = () => {
           <Route index element={<DashboardDefaultContent />} />
           <Route path="list-products" element={<ProductListView />} />
           <Route path="create-product" element={<ProductCreateView />} />
+          <Route path="edit-product/:productId" element={<ProductUpdateView />} />
           <Route path="calendar" element={<CalendarView />} />
           <Route path="account" element={<AccountView />} />
         </Route>

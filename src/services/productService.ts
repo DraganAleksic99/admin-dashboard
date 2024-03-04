@@ -12,3 +12,7 @@ export async function postProductAxios(product: FormData) {
 export async function deleteProductAxios(productIds: string[]) {
   return await api.delete<{ message: string }>(EndPoints.products, { data: productIds })
 }
+
+export async function putProductAxios(product: FormData, productId: string) {
+  return await api.put<{ message: string }>(`${EndPoints.products}/${productId}`, product)
+}

@@ -1,8 +1,8 @@
 import { Container, styled } from '@mui/material'
+import { useLocation } from 'react-router-dom'
 import Header from './Header'
-import ProductCreateForm from './ProductCreateForm'
+import ProductCreateForm from '../ProductCreateView/ProductCreateForm'
 import Page from '../../../../components/pages'
-import { productDefaultValue } from './schema/productDefaultValue'
 
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
@@ -12,15 +12,18 @@ const StyledPage = styled(Page)(({ theme }) => ({
   flex: '1 1 auto'
 }))
 
-const ProductCreateView = () => {
+const ProductUpdateView = () => {
+  const location = useLocation()
+  const { product } = location.state
+
   return (
     <StyledPage title="Product Create">
       <Container maxWidth={false}>
         <Header />
-        <ProductCreateForm initialValues={productDefaultValue} />
+        <ProductCreateForm edit initialValues={product} />
       </Container>
     </StyledPage>
   )
 }
 
-export default ProductCreateView
+export default ProductUpdateView

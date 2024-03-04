@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { FileCopy as FileCopyIcon } from '@mui/icons-material'
@@ -14,15 +14,6 @@ import {
   styled
 } from '@mui/material'
 import bytesToSize from '../utils/bytes-to-size'
-
-interface IDropZoneProps {
-  isDragActive: boolean
-}
-
-type TProps = {
-  file: File | null
-  setFile: (file: File | null) => void
-}
 
 const StyledDropZoneDiv = styled('div')<IDropZoneProps>(({ theme, isDragActive }) => ({
   border: `1px dashed ${theme.palette.divider}`,
@@ -60,7 +51,22 @@ const StyledActionsDiv = styled('div')(({ theme }) => ({
   }
 }))
 
-const FilesDropzone = ({ file, setFile }: TProps) => {
+interface IDropZoneProps {
+  isDragActive: boolean
+}
+
+type TProps = {
+  file: File | null
+  setFile: (file: File | null) => void
+  imageName: string
+  imageSize: string
+}
+
+const FilesDropzone = ({ file, setFile, imageName, imageSize }: TProps) => {
+  const [productHasImage, setProductHasImage] = useState(imageName)
+
+  console.log(productHasImage)
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       setFile(acceptedFiles[0])
@@ -70,6 +76,7 @@ const FilesDropzone = ({ file, setFile }: TProps) => {
 
   const handleRemove = () => {
     setFile(null)
+    setProductHasImage(null)
   }
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop })
@@ -92,7 +99,7 @@ const FilesDropzone = ({ file, setFile }: TProps) => {
           </Box>
         </div>
       </StyledDropZoneDiv>
-      {file && (
+      {(file || productHasImage) && (
         <>
           <PerfectScrollbar options={{ suppressScrollX: true }}>
             <StyledList>
@@ -101,9 +108,9 @@ const FilesDropzone = ({ file, setFile }: TProps) => {
                   <FileCopyIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary={file.name}
+                  primary={file ? file.name : imageName}
                   primaryTypographyProps={{ variant: 'h5' }}
-                  secondary={bytesToSize(file.size)}
+                  secondary={file ? bytesToSize(file.size) : imageSize}
                 />
               </ListItem>
             </StyledList>
