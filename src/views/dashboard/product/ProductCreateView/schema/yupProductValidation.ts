@@ -4,8 +4,8 @@ export const yupProductValidation = Yup.object().shape({
   name: Yup.string().max(255).required(),
   category: Yup.string().max(255).required(),
   description: Yup.string().max(5000),
-  price: Yup.number().min(0).required(),
-  salePrice: Yup.number().min(0),
+  price: Yup.number().min(1).required(),
+  salePrice: Yup.number().min(1),
   quantity: Yup.number().min(0).required(),
   taxSettings: Yup.object()
     .shape({

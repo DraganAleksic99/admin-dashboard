@@ -101,8 +101,6 @@ export const getInventoryLabel = (quantity: number): JSX.Element => {
 
   let inventoryType: string
 
-  console.log(quantity)
-
   if (quantity < 5) inventoryType = 'limited'
 
   if (quantity >= 5) inventoryType = 'in_stock'

@@ -4,7 +4,7 @@ export const productDefaultValue: ProductType = {
   category: '',
   createdAt: '',
   name: '',
-  quantity: '',
+  quantity: 0,
   updatedAt: '',
   description: '',
   taxSettings: {
@@ -13,5 +13,7 @@ export const productDefaultValue: ProductType = {
   },
   productSku: '',
   salePrice: '',
-  price: ''
+  price: 1,
+  imageName: '',
+  imageSize: ''
 }

@@ -58,14 +58,13 @@ interface IDropZoneProps {
 type TProps = {
   file: File | null
   setFile: (file: File | null) => void
+  setImage: (img: string) => void
   imageName: string
   imageSize: string
 }
 
-const FilesDropzone = ({ file, setFile, imageName, imageSize }: TProps) => {
+const FilesDropzone = ({ file, setFile, setImage, imageName, imageSize }: TProps) => {
   const [productHasImage, setProductHasImage] = useState(imageName)
-
-  console.log(productHasImage)
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -77,6 +76,7 @@ const FilesDropzone = ({ file, setFile, imageName, imageSize }: TProps) => {
   const handleRemove = () => {
     setFile(null)
     setProductHasImage(null)
+    setImage(null)
   }
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop })

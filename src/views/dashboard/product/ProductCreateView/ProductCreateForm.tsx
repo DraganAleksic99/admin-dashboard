@@ -57,6 +57,7 @@ type Props = {
 
 const ProductCreateForm = ({ initialValues, edit }: Props) => {
   const [file, setFile] = useState<File | null>(null)
+  const [image, setImage] = useState(initialValues.imageName)
   const { enqueueSnackbar } = useSnackbar()
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -66,8 +67,6 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
       initialValues={initialValues}
       validationSchema={yupProductValidation}
       onSubmit={async (values, formikHelpers) => {
-        const isEditing = edit
-        const isCreating = !edit
         const formData = new FormData()
 
         values.name && formData.append('name', values.name)
@@ -75,12 +74,12 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
         values.description && formData.append('description', values.description)
 
         file && formData.append('image', file)
-        file && formData.append('imageName', file.name)
+        ;(file || image) && formData.append('imageName', file?.name || initialValues.imageName)
         file && formData.append('imageSize', bytesToSize(file.size))
 
-        values.price && formData.append('price', values.price)
+        values.price && formData.append('price', String(values.price))
         values.salePrice && formData.append('salePrice', values.salePrice)
-        values.quantity && formData.append('quantity', values.quantity)
+        formData.append('quantity', String(values.quantity))
         values.taxSettings.includesTaxes &&
           formData.append('taxSettings[includesTaxes]', String(values.taxSettings.includesTaxes))
         values.taxSettings.isTaxable &&
@@ -90,11 +89,9 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
         try {
           let response
 
-          if (isEditing) {
+          if (edit) {
             response = await putProductAxios(formData, initialValues._id)
-          }
-
-          if (isCreating) {
+          } else {
             response = await postProductAxios(formData)
           }
 
@@ -154,6 +151,7 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
                     <FilesDropzone
                       imageName={initialValues.imageName}
                       imageSize={initialValues.imageSize}
+                      setImage={setImage}
                       file={file}
                       setFile={setFile}
                     />
