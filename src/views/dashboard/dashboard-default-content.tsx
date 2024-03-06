@@ -21,7 +21,7 @@ const getChartStyling = (theme: Theme) => ({
   chart: {
     background: theme.palette.background.paper,
     toolbar: {
-      show: false
+      show: true
     }
   },
   colors: ['#13affe', '#fbab49'],
@@ -32,7 +32,7 @@ const getChartStyling = (theme: Theme) => ({
     borderColor: theme.palette.divider,
     yaxis: {
       lines: {
-        show: false
+        show: true
       }
     }
   },
@@ -67,7 +67,7 @@ const getChartStyling = (theme: Theme) => ({
       show: true,
       color: theme.palette.divider
     },
-    categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     labels: {
       style: {
         colors: theme.palette.text.secondary
@@ -111,7 +111,7 @@ const DashboardDefaultContent = () => {
 
   return (
     <StyledPage title="Dashboard" styles={styles}>
-      <Container maxWidth={'sm'}>
+      <Container maxWidth={false}>
         <Box my={5}>
           <Grid container spacing={3}>
             <Grid item xs={12}>

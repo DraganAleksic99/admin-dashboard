@@ -12,7 +12,7 @@ import {
   Typography,
   styled
 } from '@mui/material'
-import { RootState } from '../../../store/reducers'
+import { RootState } from '../../../store/configureStore'
 
 const StyledOverviewBox = styled(Box)(({ theme }) => ({
   padding: theme.spacing(3),

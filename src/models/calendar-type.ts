@@ -1,11 +1,10 @@
 export type EventType = {
-  id: string
-  allDay: boolean
-  color?: string
-  description: string
+  id?: string
+  title: string
+  description?: string
+  allDay?: boolean
   end: Date
   start: Date
-  title: string
 }
 
 export type ViewType = 'dayGridMonth' | 'timeGridWeek' | 'timeGridDay' | 'listWeek'

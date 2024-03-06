@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, Button, colors, styled, useMediaQuery } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../store/reducers'
+import { RootState } from '../../store/configureStore'
 import HeaderProfile from '../../components/header-profile'
 
 const StyledLink = styled(Link)({
@@ -13,7 +13,6 @@ export default function NavigationBar() {
   const { claims } = useSelector((state: RootState) => state.auth)
 
   const token = sessionStorage.getItem('token')
-  console.log(token)
 
   const mobileDevice = useMediaQuery('(max-width:650px)')
 

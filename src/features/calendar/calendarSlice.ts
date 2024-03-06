@@ -1,5 +1,6 @@
-import { createSlice, ThunkAction, Action, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../../store/reducers'
+import { createSlice, Action, PayloadAction } from '@reduxjs/toolkit'
+import { ThunkAction } from 'redux-thunk'
+import { RootState } from '../../store/configureStore'
 import { EventType } from '../../models/calendar-type'
 import api, { EndPoints } from '../../api/axios'
 
@@ -78,8 +79,12 @@ export const getEvents = (): AppThunk => async dispatch => {
   dispatch(slice.actions.setLoading(true))
   dispatch(slice.actions.setError(''))
   try {
-    const response = await api.get<EventType[]>(EndPoints.events)
-    dispatch(slice.actions.getEvents(response.data))
+    const { data } = await api.get<EventType[]>(EndPoints.events)
+
+    // @ts-ignore
+    data.forEach(data => (data.id = data._id))
+
+    dispatch(slice.actions.getEvents(data))
   } catch (error: any) {
     console.log(error.message)
     dispatch(slice.actions.setError(error.message))
@@ -93,6 +98,7 @@ export const selectEvent =
   dispatch => {
     dispatch(slice.actions.selectEvent(id))
   }
+
 export const selectRange =
   (start: Date, end: Date): AppThunk =>
   dispatch => {

@@ -8,7 +8,7 @@ import {
   updateEvent
 } from '../../../../features/calendar/calendarSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../../../store/reducers'
+import { RootState, AppDispatch } from '../../../../store/configureStore'
 import Page from '../../../../components/pages'
 import { Container, styled, Paper, Dialog, useMediaQuery } from '@mui/material'
 import Header from './Header'
@@ -103,7 +103,7 @@ const StyledCalendarPaper = styled(Paper)(({ theme }) => ({
 }))
 
 const CalendarView = () => {
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const { events, isModalOpen, selectedRange } = useSelector((state: RootState) => state.calendar)
   const selectedEvent = useSelector(selectedEventSelector)
   const mobileDevice = useMediaQuery('(max-width:600px)')
@@ -112,17 +112,14 @@ const CalendarView = () => {
   const calendarRef = useRef<FullCalendar | null>(null)
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getEvents())
-  }, [])
+  }, [dispatch])
 
   const handleAddClick = (): void => {
-    //@ts-ignore
     dispatch(openModal())
   }
 
   const handleModalClose = (): void => {
-    //@ts-ignore
     dispatch(closeModal())
   }
 
@@ -163,14 +160,14 @@ const CalendarView = () => {
   }
 
   const handleEventSelect = (arg: any): void => {
-    //@ts-ignore
+    console.log(arg.event.id)
+
     dispatch(selectEvent(arg.event.id))
   }
 
   const handleEventDrop = async ({ event }: any): Promise<void> => {
     try {
       dispatch(
-        //@ts-ignore
         updateEvent({
           allDay: event.allDay,
           start: event.start,
@@ -186,7 +183,6 @@ const CalendarView = () => {
   const handleEventResize = async ({ event }: any): Promise<void> => {
     try {
       dispatch(
-        //@ts-ignore
         updateEvent({
           allDay: event.allDay,
           start: event.start,
@@ -204,7 +200,6 @@ const CalendarView = () => {
       const calendarApi = calendarEl.getApi()
       calendarApi.unselect()
     }
-    //@ts-ignore
     dispatch(selectRange(arg.start, arg.end))
   }
 
@@ -263,7 +258,7 @@ const CalendarView = () => {
 const selectedEventSelector = (state: RootState): EventType | null => {
   const { events, selectedEventId } = state.calendar
   if (selectedEventId) {
-    return events?.find(_event => _event.id === selectedEventId)
+    return events?.find(event => event.id === selectedEventId)
   } else {
     return null
   }

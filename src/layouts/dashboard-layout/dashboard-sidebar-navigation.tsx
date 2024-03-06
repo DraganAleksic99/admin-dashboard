@@ -29,7 +29,7 @@ import {
   DollarSign as DolarSignIcon
 } from 'react-feather'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store/reducers'
+import { RootState } from '../../store/configureStore'
 import { getProfileAction } from '../../features/profile/profileAsyncActions'
 
 type Props = {

@@ -8,11 +8,9 @@ import MainLayout from './layouts/main-layout'
 import 'react-quill/dist/quill.snow.css'
 import { SnackbarProvider } from 'notistack'
 import { Provider } from 'react-redux'
-import { configureAppStore } from './store/configureStore'
+import { store } from './store/configureStore'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-
-const store = configureAppStore()
 
 function App() {
   return (

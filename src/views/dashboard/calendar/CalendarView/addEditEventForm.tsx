@@ -20,6 +20,7 @@ import {
 } from '@mui/material'
 import { createEvent, deleteEvent, updateEvent } from '../../../../features/calendar/calendarSlice'
 import { EventType } from '../../../../models/calendar-type'
+import { AppDispatch } from '../../../../store/configureStore'
 
 type Props = {
   event?: EventType
@@ -42,13 +43,12 @@ const AddEditEventForm = ({
   onEditComplete,
   range
 }: Props) => {
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const { enqueueSnackbar } = useSnackbar()
   const isCreating = !event
 
   const handleDelete = async (): Promise<void> => {
     try {
-      //@ts-ignore
       dispatch(deleteEvent(event?.id))
       onDeleteComplete()
     } catch (err) {
@@ -78,15 +78,11 @@ const AddEditEventForm = ({
             description: values.description,
             end: values.end,
             start: values.start,
-            title: values.title,
-            id: ''
+            title: values.title
           }
           if (event) {
-            data.id = event.id
-            //@ts-ignore
             dispatch(updateEvent(data))
           } else {
-            //@ts-ignore
             dispatch(createEvent(data))
           }
           resetForm()
@@ -210,7 +206,6 @@ const getInitialValues = (event?: EventType, range?: { start: number; end: numbe
   if (event) {
     const defaultEvent = {
       allDay: false,
-      color: '',
       description: '',
       end: moment().add(30, 'minutes').toDate(),
       start: moment().toDate(),
@@ -223,7 +218,6 @@ const getInitialValues = (event?: EventType, range?: { start: number; end: numbe
   if (range) {
     const defaultEvent = {
       allDay: false,
-      color: '',
       description: '',
       end: new Date(range.end),
       start: new Date(range.start),
@@ -235,7 +229,6 @@ const getInitialValues = (event?: EventType, range?: { start: number; end: numbe
 
   return {
     allDay: false,
-    color: '',
     description: '',
     end: moment().add(30, 'minutes').toDate(),
     start: moment().toDate(),

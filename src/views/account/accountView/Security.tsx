@@ -15,7 +15,7 @@ import {
   TextField
 } from '@mui/material'
 import { changePasswordAxios, ChangePasswordModel } from '../../../services/authService'
-import { RootState } from '../../../store/reducers'
+import { RootState } from '../../../store/configureStore'
 
 type PasswordType = {
   password: string
