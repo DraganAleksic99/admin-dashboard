@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { useSnackbar } from 'notistack'
 import { DateTimePicker } from '@mui/x-date-pickers'
 import { Trash as TrashIcon } from 'react-feather'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Box,
   Button,
@@ -21,6 +21,7 @@ import {
 import { createEvent, deleteEvent, updateEvent } from '../../../../features/calendar/calendarSlice'
 import { EventType } from '../../../../models/calendar-type'
 import { AppDispatch } from '../../../../store/configureStore'
+import { selectedEventSelector } from '.'
 
 type Props = {
   event?: EventType
@@ -44,6 +45,7 @@ const AddEditEventForm = ({
   range
 }: Props) => {
   const dispatch: AppDispatch = useDispatch()
+  const selectedEvent = useSelector(selectedEventSelector)
   const { enqueueSnackbar } = useSnackbar()
   const isCreating = !event
 
@@ -78,9 +80,11 @@ const AddEditEventForm = ({
             description: values.description,
             end: values.end,
             start: values.start,
-            title: values.title
+            title: values.title,
+            id: ''
           }
           if (event) {
+            data.id = selectedEvent.id
             dispatch(updateEvent(data))
           } else {
             dispatch(createEvent(data))
@@ -212,7 +216,7 @@ const getInitialValues = (event?: EventType, range?: { start: number; end: numbe
       title: '',
       submit: null
     }
-    return { ...defaultEvent, event }
+    return { ...defaultEvent, ...event }
   }
 
   if (range) {
@@ -224,7 +228,7 @@ const getInitialValues = (event?: EventType, range?: { start: number; end: numbe
       title: '',
       submit: null
     }
-    return { ...defaultEvent, event }
+    return { ...defaultEvent, ...event }
   }
 
   return {

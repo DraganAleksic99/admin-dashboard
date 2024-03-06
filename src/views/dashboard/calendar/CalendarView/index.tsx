@@ -160,8 +160,6 @@ const CalendarView = () => {
   }
 
   const handleEventSelect = (arg: any): void => {
-    console.log(arg.event.id)
-
     dispatch(selectEvent(arg.event.id))
   }
 
@@ -255,7 +253,7 @@ const CalendarView = () => {
   )
 }
 
-const selectedEventSelector = (state: RootState): EventType | null => {
+export const selectedEventSelector = (state: RootState): EventType | null => {
   const { events, selectedEventId } = state.calendar
   if (selectedEventId) {
     return events?.find(event => event.id === selectedEventId)
