@@ -1,12 +1,7 @@
 import { useState, ChangeEvent } from 'react'
 import numeral from 'numeral'
 import PerfectScrollbar from 'react-perfect-scrollbar'
-import {
-  Image as ImageIcon,
-  Edit as EditIcon,
-  ArrowRight as ArrowRightIcon,
-  Search as SearchIcon
-} from 'react-feather'
+import { Image as ImageIcon, Edit as EditIcon, Search as SearchIcon } from 'react-feather'
 import {
   Box,
   Button,
@@ -25,21 +20,22 @@ import {
   TextField,
   styled
 } from '@mui/material'
-import {
-  availabilityOptions,
-  categoryOptions,
-  sortOptions
-} from '../../../../helpers/inputProductOptions'
+import { useSnackbar } from 'notistack'
+import { useNavigate } from 'react-router-dom'
+import { categoryOptions, sortOptions } from '../../../../helpers/inputProductOptions'
 import {
   applyFilters,
   applyPagination,
+  applySort,
   TableResultsHelpers,
   getInventoryLabel
 } from './TableResultsHelpers'
 import { ProductType } from '../../../../models/product-type'
+import { deleteProductAxios } from '../../../../services/productService'
 
 type Props = {
   products?: ProductType[]
+  onProductDeleted: () => void
 }
 
 const StyledQueryTextField = styled(TextField)({
@@ -50,16 +46,7 @@ const StyledCategoryTextField = styled(TextField)({
   flexBasis: 200
 })
 
-const StyledAvailabilityTextField = styled(TextField)(({ theme }) => ({
-  marginLeft: theme.spacing(4),
-  flexBasis: 200
-}))
-
 const StyledStockFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
-  marginLeft: theme.spacing(2)
-}))
-
-const StyledShippableFormControlLabel = styled(FormControlLabel)(({ theme }) => ({
   marginLeft: theme.spacing(2)
 }))
 
@@ -94,19 +81,18 @@ const StyledImage = styled('img')({
   width: 68
 })
 
-const Results = ({ products, ...rest }: Props) => {
+const Results = ({ products, onProductDeleted }: Props) => {
   const [selectedProducts, setSelectedProducts] = useState<string[]>([])
-
+  const { enqueueSnackbar } = useSnackbar()
   const [page, setPage] = useState(0)
   const [limit, setLimit] = useState(10)
   const [query, setQuery] = useState('')
+  const navigate = useNavigate()
 
   const [sort, setSort] = useState<string>(sortOptions[0].value)
   const [filters, setFilters] = useState<TableResultsHelpers | any>({
     category: null,
-    availability: null,
-    inStock: null,
-    isShippable: null
+    inStock: null
   })
 
   const handleQueryChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -117,24 +103,12 @@ const Results = ({ products, ...rest }: Props) => {
   const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.persist()
     let value: any = null
-    if (e.target.value !== 'all') {
+    if (e.target.value !== 'All') {
       value = e.target.value
     }
     setFilters(prevFilters => ({
       ...prevFilters,
       category: value
-    }))
-  }
-
-  const handleAvailabilityChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    e.persist()
-    let value: any = null
-    if (e.target.value !== 'all') {
-      value = e.target.value
-    }
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      availability: value
     }))
   }
 
@@ -150,25 +124,13 @@ const Results = ({ products, ...rest }: Props) => {
     }))
   }
 
-  const handleShippableChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    e.persist()
-    let value: any = null
-    if (e.target.checked) {
-      value = true
-    }
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      inShippable: value
-    }))
-  }
-
   const handleSortChange = (e: ChangeEvent<HTMLInputElement>): void => {
     e.persist()
     setSort(e.target.value)
   }
 
   const handleSelectAllProducts = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedProducts(e.target.checked ? products.map(product => product.id) : [])
+    setSelectedProducts(e.target.checked ? products.map(product => product._id) : [])
   }
 
   const handleSelectOneProduct = (e: ChangeEvent<HTMLInputElement>, productId: string): void => {
@@ -187,15 +149,31 @@ const Results = ({ products, ...rest }: Props) => {
     setLimit(parseInt(e.target.value))
   }
 
+  const handleDeleteProduct = async () => {
+    try {
+      const { data } = await deleteProductAxios(selectedProducts)
+      onProductDeleted()
+      setSelectedProducts([])
+      enqueueSnackbar(data.message, {
+        variant: 'success'
+      })
+    } catch (e: any) {
+      console.log(e.response.data.message)
+    }
+  }
+
   const filteredProducts = applyFilters(products, query, filters)
-  const paginatedProducts = applyPagination(filteredProducts, page, limit)
+  const sortedProducts = applySort(filteredProducts, sort)
+  const paginatedProducts = applyPagination(sortedProducts, page, limit)
   const enableBulkOperations = selectedProducts.length > 0
+
   const selectedSomeProducts =
     selectedProducts.length > 0 && selectedProducts.length < products.length
-  const selectedAllProducts = selectedProducts.length === products.length
+  const selectedAllProducts =
+    selectedProducts.length === products.length && selectedProducts.length !== 0
 
   return (
-    <Card {...rest}>
+    <Card>
       <Box p={2}>
         <Box display="flex" alignItems="center">
           <StyledQueryTextField
@@ -237,45 +215,20 @@ const Results = ({ products, ...rest }: Props) => {
             onChange={handleCategoryChange}
             select
             SelectProps={{ native: true }}
-            value={filters.category || 'all'}
+            value={filters.category || 'All'}
             variant="outlined"
           >
             {categoryOptions.map(categoryOption => (
-              <option key={categoryOption.id} value={categoryOption.id}>
+              <option key={categoryOption.id} value={categoryOption.name}>
                 {categoryOption.name}
               </option>
             ))}
           </StyledCategoryTextField>
-          <StyledAvailabilityTextField
-            label="Availability"
-            name="availability"
-            onChange={handleAvailabilityChange}
-            select
-            SelectProps={{ native: true }}
-            value={filters.availability || 'all'}
-            variant="outlined"
-          >
-            {availabilityOptions.map(avalabilityOption => (
-              <option key={avalabilityOption.id} value={avalabilityOption.id}>
-                {avalabilityOption.name}
-              </option>
-            ))}
-          </StyledAvailabilityTextField>
           <StyledStockFormControlLabel
             control={
               <Checkbox checked={!!filters.inStock} onChange={handleStockChange} name="inStock" />
             }
             label="In Stock"
-          />
-          <StyledShippableFormControlLabel
-            control={
-              <Checkbox
-                checked={!!filters.isShippable}
-                onChange={handleShippableChange}
-                name="Shippable"
-              />
-            }
-            label="Shippable"
           />
         </Box>
       </Box>
@@ -287,8 +240,9 @@ const Results = ({ products, ...rest }: Props) => {
               indeterminate={selectedSomeProducts}
               onChange={handleSelectAllProducts}
             />
-            <StyledBulkActionButton variant="outlined">Delete</StyledBulkActionButton>
-            <StyledBulkActionButton variant="outlined">Edit</StyledBulkActionButton>
+            <StyledBulkActionButton variant="outlined" onClick={handleDeleteProduct}>
+              Delete
+            </StyledBulkActionButton>
           </StyledBulkActionsDiv>
         </StyledBulkOperationsDiv>
       )}
@@ -308,26 +262,29 @@ const Results = ({ products, ...rest }: Props) => {
                 <TableCell>Name</TableCell>
                 <TableCell>Inventory</TableCell>
                 <TableCell>Details</TableCell>
-                <TableCell>Attributes</TableCell>
+                <TableCell>Category</TableCell>
                 <TableCell>Price</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedProducts.map(product => {
-                const isProductSelected = selectedProducts.includes(product.id)
+              {paginatedProducts?.map(product => {
+                const isProductSelected = selectedProducts.includes(product._id)
+                const imageUrl =
+                  product.image?.data &&
+                  `http://localhost:3500/product/image/${product._id}?${new Date().getTime()}`
                 return (
-                  <TableRow hover key={product.id} selected={isProductSelected}>
+                  <TableRow hover key={product._id} selected={isProductSelected}>
                     <TableCell padding="checkbox">
                       <Checkbox
                         checked={isProductSelected}
-                        onChange={event => handleSelectOneProduct(event, product.id)}
+                        onChange={event => handleSelectOneProduct(event, product._id)}
                         value={isProductSelected}
                       />
                     </TableCell>
                     <StyledImageTableCell>
-                      {product.image ? (
-                        <StyledImage alt="Product" src={product.image} />
+                      {product.image?.data ? (
+                        <StyledImage alt="Product" src={imageUrl} />
                       ) : (
                         <Box p={2} bgcolor="background.dark">
                           <SvgIcon>
@@ -337,24 +294,20 @@ const Results = ({ products, ...rest }: Props) => {
                       )}
                     </StyledImageTableCell>
                     <TableCell>{product.name}</TableCell>
-                    <TableCell>{getInventoryLabel(product.inventoryType)}</TableCell>
+                    <TableCell>{getInventoryLabel(Number(product.quantity))}</TableCell>
+                    <TableCell>{product.quantity} in stock</TableCell>
+                    <TableCell>{product.category}</TableCell>
+                    <TableCell>{numeral(product.price).format('$0,0.00')}</TableCell>
                     <TableCell>
-                      {product.quantity} in stock
-                      {product.variants > 1 && ` in ${product.variants} variants`}
-                    </TableCell>
-                    <TableCell>{product.attributes.map(attr => attr)}</TableCell>
-                    <TableCell>
-                      {numeral(product.price).format(`${product.currency}0,0.00`)}
-                    </TableCell>
-                    <TableCell align="right">
-                      <IconButton>
+                      <IconButton
+                        onClick={() =>
+                          navigate(`/dashboard/edit-product/${product._id}`, {
+                            state: { product }
+                          })
+                        }
+                      >
                         <SvgIcon fontSize="small">
                           <EditIcon />
-                        </SvgIcon>
-                      </IconButton>
-                      <IconButton>
-                        <SvgIcon fontSize="small">
-                          <ArrowRightIcon />
                         </SvgIcon>
                       </IconButton>
                     </TableCell>
@@ -365,7 +318,7 @@ const Results = ({ products, ...rest }: Props) => {
           </Table>
           <TablePagination
             component="div"
-            count={filteredProducts.length}
+            count={sortedProducts.length}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleLimitChange}
             page={page}
