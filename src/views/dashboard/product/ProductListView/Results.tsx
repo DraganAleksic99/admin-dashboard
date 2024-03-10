@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from 'react'
+import { useSelector } from 'react-redux'
 import numeral from 'numeral'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { Image as ImageIcon, Edit as EditIcon, Search as SearchIcon } from 'react-feather'
@@ -32,6 +33,7 @@ import {
 } from './TableResultsHelpers'
 import { ProductType } from '../../../../models/product-type'
 import { deleteProductAxios } from '../../../../services/productService'
+import { RootState } from '../../../../store/configureStore'
 
 type Props = {
   products?: ProductType[]
@@ -88,6 +90,7 @@ const Results = ({ products, onProductDeleted }: Props) => {
   const [limit, setLimit] = useState(10)
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
+  const { accessToken } = useSelector((state: RootState) => state.auth)
 
   const [sort, setSort] = useState<string>(sortOptions[0].value)
   const [filters, setFilters] = useState<TableResultsHelpers | any>({
@@ -151,7 +154,7 @@ const Results = ({ products, onProductDeleted }: Props) => {
 
   const handleDeleteProduct = async () => {
     try {
-      const { data } = await deleteProductAxios(selectedProducts)
+      const { data } = await deleteProductAxios(selectedProducts, accessToken)
       onProductDeleted()
       setSelectedProducts([])
       enqueueSnackbar(data.message, {

@@ -44,8 +44,8 @@ const StyledLink = styled('a')({
 })
 
 const HeaderProfile = () => {
-  const { profile } = useSelector((state: RootState) => state.profile)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const { claims } = useSelector((state: RootState) => state.auth)
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -62,7 +62,7 @@ const HeaderProfile = () => {
   return (
     <div>
       <Box display="flex" justifyContent="center" onClick={handleClick}>
-        <StyledAvatar variant={'circular'} alt="User" src={profile.avatar} />
+        <StyledAvatar variant={'circular'} alt="User" src={''} />
       </Box>
       <StyledMenu
         id="customized-menu"
@@ -72,7 +72,7 @@ const HeaderProfile = () => {
         onClose={handleClose}
       >
         <MenuItem>
-          <ListItemText primary={profile.email} />
+          <ListItemText primary={claims.payload?.email} />
         </MenuItem>
         <Divider />
         <MenuItem>

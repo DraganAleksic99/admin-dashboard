@@ -3,6 +3,12 @@ import { ThunkAction } from 'redux-thunk'
 import { RootState } from '../../store/configureStore'
 import { EventType } from '../../models/calendar-type'
 import api, { EndPoints } from '../../api/axios'
+import {
+  getEventsAxios,
+  postEventAxios,
+  putEventAxios,
+  deleteEventAxios
+} from '../../services/eventService'
 
 export type AppThunk = ThunkAction<void, RootState, null, Action<string>>
 
@@ -75,23 +81,26 @@ const slice = createSlice({
   }
 })
 
-export const getEvents = (): AppThunk => async dispatch => {
-  dispatch(slice.actions.setLoading(true))
-  dispatch(slice.actions.setError(''))
-  try {
-    const { data } = await api.get<EventType[]>(EndPoints.events)
+export const getEvents =
+  (token: string): AppThunk =>
+  async dispatch => {
+    dispatch(slice.actions.setLoading(true))
+    dispatch(slice.actions.setError(''))
 
-    // @ts-ignore
-    data.forEach(data => (data.id = data._id))
+    try {
+      const { data } = await getEventsAxios(token)
 
-    dispatch(slice.actions.getEvents(data))
-  } catch (error: any) {
-    console.log(error.message)
-    dispatch(slice.actions.setError(error.message))
-  } finally {
-    dispatch(slice.actions.setLoading(false))
+      // @ts-ignore
+      data.forEach(data => (data.id = data._id))
+
+      dispatch(slice.actions.getEvents(data))
+    } catch (error: any) {
+      console.log(error.message)
+      dispatch(slice.actions.setError(error.message))
+    } finally {
+      dispatch(slice.actions.setLoading(false))
+    }
   }
-}
 
 export const selectEvent =
   (id?: string): AppThunk =>
@@ -119,13 +128,13 @@ export const closeModal = (): AppThunk => dispatch => {
 }
 
 export const createEvent =
-  (event: EventType): AppThunk =>
+  (event: EventType, token: string): AppThunk =>
   async dispatch => {
     dispatch(slice.actions.setLoading(true))
     dispatch(slice.actions.setError(''))
 
     try {
-      const { data } = await api.post<EventType>(EndPoints.events, event)
+      const { data } = await postEventAxios(event, token)
       dispatch(slice.actions.createEvent(data))
     } catch (error: any) {
       console.log(error.message)
@@ -136,13 +145,13 @@ export const createEvent =
   }
 
 export const updateEvent =
-  (update: EventType): AppThunk =>
+  (event: EventType, token: string): AppThunk =>
   async dispatch => {
     dispatch(slice.actions.setLoading(true))
     dispatch(slice.actions.setError(''))
 
     try {
-      const { data } = await api.put<EventType>(`${EndPoints.events}/${update.id}`, update)
+      const { data } = await putEventAxios(event, token)
       dispatch(slice.actions.updateEvent(data))
     } catch (error: any) {
       console.log(error.message)
@@ -153,13 +162,13 @@ export const updateEvent =
   }
 
 export const deleteEvent =
-  (id: string): AppThunk =>
+  (id: string, token: string): AppThunk =>
   async dispatch => {
     dispatch(slice.actions.setLoading(true))
     dispatch(slice.actions.setError(''))
 
     try {
-      await api.delete(`${EndPoints.events}/${id}`)
+      await deleteEventAxios(id, token)
       dispatch(slice.actions.deleteEvent(id))
     } catch (error: any) {
       console.log(error.message)

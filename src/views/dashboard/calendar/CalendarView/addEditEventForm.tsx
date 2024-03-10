@@ -20,7 +20,7 @@ import {
 } from '@mui/material'
 import { createEvent, deleteEvent, updateEvent } from '../../../../features/calendar/calendarSlice'
 import { EventType } from '../../../../models/calendar-type'
-import { AppDispatch } from '../../../../store/configureStore'
+import { AppDispatch, RootState } from '../../../../store/configureStore'
 import { selectedEventSelector } from '.'
 
 type Props = {
@@ -46,12 +46,13 @@ const AddEditEventForm = ({
 }: Props) => {
   const dispatch: AppDispatch = useDispatch()
   const selectedEvent = useSelector(selectedEventSelector)
+  const { accessToken } = useSelector((state: RootState) => state.auth)
   const { enqueueSnackbar } = useSnackbar()
   const isCreating = !event
 
   const handleDelete = async (): Promise<void> => {
     try {
-      dispatch(deleteEvent(event?.id))
+      dispatch(deleteEvent(event?.id, accessToken))
       onDeleteComplete()
     } catch (err) {
       console.log(err)
@@ -85,9 +86,9 @@ const AddEditEventForm = ({
           }
           if (event) {
             data.id = selectedEvent.id
-            dispatch(updateEvent(data))
+            dispatch(updateEvent(data, accessToken))
           } else {
-            dispatch(createEvent(data))
+            dispatch(createEvent(data, accessToken))
           }
           resetForm()
           setStatus({ success: true })

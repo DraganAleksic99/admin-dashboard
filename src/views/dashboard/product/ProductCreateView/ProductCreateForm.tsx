@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { useSnackbar } from 'notistack'
@@ -24,6 +25,7 @@ import { postProductAxios, putProductAxios } from '../../../../services/productS
 import { yupProductValidation } from './schema/yupProductValidation'
 import { ProductType } from '../../../../models/product-type'
 import bytesToSize from '../../../../utils/bytes-to-size'
+import { RootState } from '../../../../store/configureStore'
 
 const categories = [
   {
@@ -61,6 +63,7 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
   const { enqueueSnackbar } = useSnackbar()
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const { accessToken } = useSelector((state: RootState) => state.auth)
 
   return (
     <Formik
@@ -90,9 +93,9 @@ const ProductCreateForm = ({ initialValues, edit }: Props) => {
           let response
 
           if (edit) {
-            response = await putProductAxios(formData, initialValues._id)
+            response = await putProductAxios(formData, initialValues._id, accessToken)
           } else {
-            response = await postProductAxios(formData)
+            response = await postProductAxios(formData, accessToken)
           }
 
           formikHelpers.setStatus({ success: true })

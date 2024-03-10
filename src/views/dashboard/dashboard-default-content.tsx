@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { getSalesAxios } from '../../services/saleService'
-import { SaleType } from '../../models/sale-type'
+import { useEffect, useState, useCallback } from 'react'
+import { useSelector } from 'react-redux'
 import Chart from 'react-apexcharts'
 import { Box, Card, CardContent, Container, Grid, Typography, useTheme } from '@mui/material'
-import Page from '../../components/pages'
 import { styled } from '@mui/material/styles'
 import { Theme } from '@mui/material/styles'
+import Page from '../../components/pages'
+import { getSalesAxios } from '../../services/saleService'
+import { SaleType } from '../../models/sale-type'
+import { RootState } from '../../store/configureStore'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -98,16 +100,17 @@ const styles = {
 
 const DashboardDefaultContent = () => {
   const [sales, setSales] = useState<SaleType[]>([])
+  const { accessToken } = useSelector((state: RootState) => state.auth)
   const theme = useTheme()
 
-  const fetchSales = async () => {
-    const { data } = await getSalesAxios()
+  const fetchSales = useCallback(async () => {
+    const { data } = await getSalesAxios(accessToken)
     setSales(data)
-  }
+  }, [accessToken])
 
   useEffect(() => {
     fetchSales()
-  }, [])
+  }, [fetchSales])
 
   return (
     <StyledPage title="Dashboard" styles={styles}>

@@ -12,12 +12,7 @@ export const initialState: ProfileStateType = {
 export const profileSlice = createSlice({
   name: profileNamespace,
   initialState,
-  /*Non asynchronous actions. Does not require Axios.*/
   reducers: {},
-  /*Asynchronous actions. Actions that require Axios. extraReducers - allows createSlice to respond
-     not only to its own action type but other action types also*/
-  /*state - is coming from the initialState; no need to define it because 
-    the Redux Toolkit can already infer what particular state it is. */
   extraReducers: builder => {
     builder.addCase(getProfileAction.pending, state => {
       state.loading = true
@@ -42,7 +37,6 @@ export const profileSlice = createSlice({
     builder.addCase(putProfileAction.rejected, (state, action: PayloadAction<any>) => {
       state.loading = false
       state.error = 'Something wrong happened'
-      console.log(action?.payload)
     })
   }
 })

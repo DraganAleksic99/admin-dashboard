@@ -4,8 +4,8 @@ import { ClaimsType } from '../../models/claims-type'
 const authNamespace = 'auth'
 
 export type AuthStateType = {
-  readonly accessToken: string
-  readonly claims: ClaimsType
+  accessToken: string
+  claims: ClaimsType
 }
 
 export const initialState: AuthStateType = {

@@ -110,10 +110,11 @@ const CalendarView = () => {
   const [date, setDate] = useState<Date>(moment().toDate())
   const [view, setView] = useState<ViewType>(mobileDevice ? 'listWeek' : 'dayGridMonth')
   const calendarRef = useRef<FullCalendar | null>(null)
+  const { accessToken } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
-    dispatch(getEvents())
-  }, [dispatch])
+    dispatch(getEvents(accessToken))
+  }, [dispatch, accessToken])
 
   const handleAddClick = (): void => {
     dispatch(openModal())
@@ -166,12 +167,15 @@ const CalendarView = () => {
   const handleEventDrop = async ({ event }: any): Promise<void> => {
     try {
       dispatch(
-        updateEvent({
-          allDay: event.allDay,
-          start: event.start,
-          end: event.end,
-          id: event.id
-        } as any)
+        updateEvent(
+          {
+            allDay: event.allDay,
+            start: event.start,
+            end: event.end,
+            id: event.id
+          } as any,
+          accessToken
+        )
       )
     } catch (err) {
       console.error(err)
@@ -181,12 +185,15 @@ const CalendarView = () => {
   const handleEventResize = async ({ event }: any): Promise<void> => {
     try {
       dispatch(
-        updateEvent({
-          allDay: event.allDay,
-          start: event.start,
-          end: event.end,
-          id: event.id
-        } as any)
+        updateEvent(
+          {
+            allDay: event.allDay,
+            start: event.start,
+            end: event.end,
+            id: event.id
+          } as any,
+          accessToken
+        )
       )
     } catch (err) {
       console.error(err)
