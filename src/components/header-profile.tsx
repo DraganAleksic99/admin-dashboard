@@ -1,6 +1,6 @@
 import { useState, MouseEvent } from 'react'
 import { LogOut as LogOutIcon, Hexagon as HexagonIcon } from 'react-feather'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../store/configureStore'
 import {
   Avatar,
@@ -13,6 +13,7 @@ import {
   Menu,
   MenuProps
 } from '@mui/material'
+import { saveTokenAction, saveClaimsAction } from '../features/auth/authSlice'
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   cursor: 'pointer',
@@ -46,6 +47,7 @@ const StyledLink = styled('a')({
 const HeaderProfile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const { claims } = useSelector((state: RootState) => state.auth)
+  const dispatch = useDispatch()
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -57,6 +59,8 @@ const HeaderProfile = () => {
 
   const handleLogout = () => {
     sessionStorage.clear()
+    dispatch(saveTokenAction(undefined))
+    dispatch(saveClaimsAction(undefined))
   }
 
   return (
