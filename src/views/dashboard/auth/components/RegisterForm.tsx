@@ -41,9 +41,9 @@ const RegisterForm = () => {
   return (
     <Formik
       initialValues={{
-        email: 'johnnydoe@yahoo.com',
-        name: 'John',
-        mobile: '+34782364823',
+        email: 'demo@gmail.com',
+        name: 'Demo name',
+        mobile: '+123456789',
         password: 'Pass123!',
         policy: false
       }}
