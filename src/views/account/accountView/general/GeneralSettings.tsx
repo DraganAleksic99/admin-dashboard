@@ -75,7 +75,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     name="name"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values?.name}
+                    value={values.name || ''}
                     variant="outlined"
                   />
                 </Grid>
@@ -94,7 +94,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     onChange={handleChange}
                     required
                     type="email"
-                    value={values?.email}
+                    value={values.email || ''}
                     variant="outlined"
                   />
                 </Grid>
@@ -107,7 +107,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     name="phone"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values?.phone}
+                    value={values.phone || ''}
                     variant="outlined"
                   />
                 </Grid>
@@ -115,8 +115,8 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                   <Autocomplete
                     id="country"
                     options={countries}
-                    //@ts-ignore
-                    value={values?.country}
+                    // @ts-ignore
+                    value={values.country}
                     getOptionLabel={option => option.toString()}
                     //@ts-ignore
                     renderOption={option => <>{option.text}</>}
@@ -126,7 +126,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     renderInput={params => (
                       <TextField
                         {...params}
-                        value={values?.country}
+                        value={values.country || ''}
                         fullWidth
                         label="Country"
                         name="country"
@@ -149,7 +149,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     name="state"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values?.state}
+                    value={values.state || ''}
                     variant="outlined"
                   />
                 </Grid>
@@ -162,7 +162,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
                     name="city"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values?.city}
+                    value={values.city || ''}
                     variant="outlined"
                   />
                 </Grid>
@@ -218,6 +218,7 @@ const GeneralSettings = ({ user, ...rest }: Props) => {
 export default GeneralSettings
 
 const countries = [
+  { text: '', value: '' },
   { text: 'Afghanistan', value: 'AF' },
   { text: 'Åland Islands', value: 'AX' },
   { text: 'Albania', value: 'AL' },
