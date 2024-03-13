@@ -76,7 +76,7 @@ const HeaderProfile = () => {
         onClose={handleClose}
       >
         <MenuItem>
-          <ListItemText primary={claims.payload?.email} />
+          <ListItemText primary={claims?.payload?.email} />
         </MenuItem>
         <Divider />
         <MenuItem>

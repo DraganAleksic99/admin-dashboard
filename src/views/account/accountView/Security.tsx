@@ -51,8 +51,8 @@ const Security = () => {
             return
           }
           const args: ChangePasswordModel = {
-            id: claims.sub,
-            email: claims.email,
+            id: claims?.payload?._id,
+            email: claims?.payload?.email,
             password: values.password
           }
           await changePasswordAxios(args)

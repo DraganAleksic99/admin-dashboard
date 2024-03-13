@@ -11,7 +11,7 @@ export type Subscription = {
 }
 
 export type UserType = {
-  id: string
+  _id: string
   email: string
   password: string
   country: string

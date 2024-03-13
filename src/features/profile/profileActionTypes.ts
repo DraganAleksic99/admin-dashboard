@@ -1,9 +1,9 @@
 import { UserType } from '../../models/user-type'
 
 export type ProfileStateType = {
-  readonly profile: UserType
-  readonly loading: boolean
-  readonly error: string
+  profile: UserType
+  loading: boolean
+  error: string
 }
 
 export const profileNamespace = 'profile'

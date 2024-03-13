@@ -58,8 +58,8 @@ const Subscription = () => {
           <StyledOverviewBox>
             <div>
               <Typography display="inline" variant="h4" color="textPrimary">
-                {subscription.currency}
-                {subscription.price}
+                {subscription?.currency}
+                {subscription?.price}
               </Typography>
               <Typography display="inline" variant="subtitle1">
                 /mo
@@ -68,7 +68,7 @@ const Subscription = () => {
             <Box display="flex" alignItems="center">
               <StyledProductImg alt="Product" src="/images/products/product_premium.svg" />
               <Typography variant="overline" color="textSecondary">
-                {subscription.name}
+                {subscription?.name}
               </Typography>
             </Box>
           </StyledOverviewBox>
@@ -76,27 +76,27 @@ const Subscription = () => {
           <StyledDetailsBox>
             <div>
               <Typography variant="body2" color="textPrimary">
-                {`${subscription.proposalsLeft} proposals left`}
+                {`${subscription?.proposalsLeft || 0} proposals left`}
               </Typography>
               <Typography variant="body2" color="textPrimary">
-                {`${subscription.templatesLeft} templates`}
+                {`${subscription?.templatesLeft || 0} templates`}
               </Typography>
             </div>
             <div>
               <Typography variant="body2" color="textPrimary">
-                {`${subscription.invitesLeft} invites left`}
+                {`${subscription?.invitesLeft || 0} invites left`}
               </Typography>
               <Typography variant="body2" color="textPrimary">
-                {`${subscription.adsLeft} ads left`}
+                {`${subscription?.adsLeft || 0} ads left`}
               </Typography>
             </div>
             <div>
-              {subscription.hasAnalytics && (
+              {subscription?.hasAnalytics && (
                 <Typography variant="body2" color="textPrimary">
                   Analytics dashboard
                 </Typography>
               )}
-              {subscription.hasEmailAlerts && (
+              {subscription?.hasEmailAlerts && (
                 <Typography variant="body2" color="textPrimary">
                   Email alerts
                 </Typography>
