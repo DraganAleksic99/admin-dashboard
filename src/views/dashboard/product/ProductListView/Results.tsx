@@ -136,7 +136,7 @@ const Results = ({ products, onProductDeleted }: Props) => {
     setSelectedProducts(e.target.checked ? products.map(product => product._id) : [])
   }
 
-  const handleSelectOneProduct = (e: ChangeEvent<HTMLInputElement>, productId: string): void => {
+  const handleSelectOneProduct = (_e: ChangeEvent<HTMLInputElement>, productId: string): void => {
     if (!selectedProducts.includes(productId)) {
       setSelectedProducts(prevSelected => [...prevSelected, productId])
     } else {

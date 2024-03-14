@@ -23,14 +23,13 @@ export const categoryOptions = [
 
 export const sortOptions = [
   {
-    value: 'createdAt|desc',
-    label: 'Creation date (newest first)'
-  },
-  {
     value: 'createdAt|asc',
     label: 'Creation date (oldest first)'
   },
-
+  {
+    value: 'createdAt|desc',
+    label: 'Creation date (newest first)'
+  },
   {
     value: 'updatedAt|desc',
     label: 'Last update (newest first)'

@@ -40,47 +40,65 @@ export const applyPagination = (
 
 export const applySort = (products: ProductType[], sortOption: string): ProductType[] => {
   let updatedProducts: ProductType[]
+
   switch (sortOption) {
     case 'createdAt|desc':
-      products.sort((firstProduct: ProductType, secondProduct: ProductType) => {
-        if (firstProduct.createdAt > secondProduct.createdAt) {
-          return 1
-        } else {
-          return -1
+      updatedProducts = [...products].sort(
+        (firstProduct: ProductType, secondProduct: ProductType) => {
+          if (
+            new Date(secondProduct.createdAt).getTime() > new Date(firstProduct.createdAt).getTime()
+          ) {
+            return 1
+          } else {
+            return -1
+          }
         }
-      })
+      )
       break
     case 'createdAt|asc':
-      products.sort((firstProduct: ProductType, secondProduct: ProductType) => {
-        if (firstProduct.createdAt > secondProduct.createdAt) {
-          return -1
-        } else {
-          return 1
+      updatedProducts = [...products].sort(
+        (firstProduct: ProductType, secondProduct: ProductType) => {
+          if (
+            new Date(secondProduct.createdAt).getTime() > new Date(firstProduct.createdAt).getTime()
+          ) {
+            return -1
+          } else {
+            return 1
+          }
         }
-      })
+      )
       break
     case 'updatedAt|desc':
       updatedProducts = products.filter(product => product.updatedAt)
-      products = updatedProducts.sort((firstProduct: ProductType, secondProduct: ProductType) => {
-        if (firstProduct.updatedAt > secondProduct.updatedAt) {
-          return -1
-        } else {
-          return 1
+      updatedProducts = updatedProducts.sort(
+        (firstProduct: ProductType, secondProduct: ProductType) => {
+          if (
+            new Date(secondProduct.updatedAt).getTime() > new Date(firstProduct.updatedAt).getTime()
+          ) {
+            return 1
+          } else {
+            return -1
+          }
         }
-      })
+      )
       break
     case 'updatedAt|asc':
       updatedProducts = products.filter(product => product.updatedAt)
-      products = updatedProducts.sort((firstProduct: ProductType, secondProduct: ProductType) => {
-        if (firstProduct.updatedAt > secondProduct.updatedAt) {
-          return 1
-        } else {
-          return -1
+      updatedProducts = updatedProducts.sort(
+        (firstProduct: ProductType, secondProduct: ProductType) => {
+          if (
+            new Date(secondProduct.updatedAt).getTime() > new Date(firstProduct.updatedAt).getTime()
+          ) {
+            return -1
+          } else {
+            return 1
+          }
         }
-      })
+      )
       break
   }
-  return products
+
+  return updatedProducts
 }
 
 export const getInventoryLabel = (quantity: number): JSX.Element => {
