@@ -1,4 +1,5 @@
-import { useState, ChangeEvent } from 'react'
+import { useState, ChangeEvent, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Container, Divider, Tab, Tabs, styled } from '@mui/material'
 import Header from './Header'
 import General from './general'
@@ -6,6 +7,8 @@ import Subscription from './Subscription'
 import Notifications from './Notifications'
 import Security from './Security'
 import Page from '../../../components/pages'
+import { getProfileAction } from '../../../features/profile/profileAsyncActions'
+import { AppDispatch, RootState } from '../../../store/configureStore'
 
 const StyledPage = styled(Page)(({ theme }) => ({
   minHeight: '100%',
@@ -16,9 +19,16 @@ const StyledPage = styled(Page)(({ theme }) => ({
 }))
 
 const AccountView = () => {
+  const dispatch: AppDispatch = useDispatch()
   const [currentTab, setCurrentTab] = useState('general')
+  const { claims } = useSelector((state: RootState) => state.auth)
+  const { accessToken } = useSelector((state: RootState) => state.auth)
 
-  const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
+  useEffect(() => {
+    dispatch(getProfileAction({ id: claims?.payload?._id, token: accessToken }))
+  }, [dispatch, claims, accessToken])
+
+  const handleTabsChange = (_event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value)
   }
   return (
