@@ -29,7 +29,7 @@ import {
   DollarSign as DolarSignIcon
 } from 'react-feather'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../store/configureStore'
+import { RootState, AppDispatch } from '../../store/configureStore'
 import { getProfileAction } from '../../features/profile/profileAsyncActions'
 
 type Props = {
@@ -102,9 +102,10 @@ const StyledAvatar = styled(Avatar)({
 
 const DashboardSidebarNavigation = () => {
   const [open, setOpen] = useState(false)
-  const dispatch = useDispatch()
+  const dispatch: AppDispatch = useDispatch()
   const { profile } = useSelector((state: RootState) => state.profile)
   const { claims } = useSelector((state: RootState) => state.auth)
+  const { accessToken } = useSelector((state: RootState) => state.auth)
   const mobileDevice = useMediaQuery('(max-width:650px)')
 
   const handleClick = () => {
@@ -116,9 +117,8 @@ const DashboardSidebarNavigation = () => {
   }
 
   useEffect(() => {
-    //@ts-ignore
-    dispatch(getProfileAction('z4fNfs0'))
-  }, [])
+    dispatch(getProfileAction({ id: claims?.payload?._id, token: accessToken }))
+  }, [claims, accessToken, dispatch])
 
   return (
     <StyledDiv>
@@ -130,9 +130,9 @@ const DashboardSidebarNavigation = () => {
               <StyledAvatar alt="User" src={profile.avatar} />
             </Box>
             <Box mt={2} textAlign="center">
-              <Typography>{profile.name}</Typography>
+              <Typography sx={{ mb: '5px' }}>{profile.name}</Typography>
               <Typography variant="body2" color="textSecondary">
-                Your tier: {profile.tier}
+                Your tier: {profile.tier || 'none'}
               </Typography>
             </Box>
           </Box>
