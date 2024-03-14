@@ -24,7 +24,7 @@ type PasswordType = {
 
 const Security = () => {
   const { claims } = useSelector((state: RootState) => state.auth)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<any>('')
   const { enqueueSnackbar } = useSnackbar()
 
   return (
@@ -63,7 +63,7 @@ const Security = () => {
             variant: 'success'
           })
         } catch (err) {
-          console.error(err)
+          setError(err)
           formikHelpers.setStatus({ success: false })
           formikHelpers.setSubmitting(false)
         }

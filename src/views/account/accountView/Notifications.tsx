@@ -70,7 +70,7 @@ const Notifications = () => {
         </CardContent>
         <Divider />
         <Box p={2} display="flex" justifyContent="flex-end">
-          <Button color="secondary" type="submit" variant="contained">
+          <Button color="secondary" type="button" variant="contained">
             Save Settings
           </Button>
         </Box>
