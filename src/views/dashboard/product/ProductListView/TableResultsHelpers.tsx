@@ -43,7 +43,7 @@ export const applySort = (products: ProductType[], sortOption: string): ProductT
 
   switch (sortOption) {
     case 'createdAt|desc':
-      updatedProducts = [...products].sort(
+      updatedProducts = products.toSorted(
         (firstProduct: ProductType, secondProduct: ProductType) => {
           if (
             new Date(secondProduct.createdAt).getTime() > new Date(firstProduct.createdAt).getTime()
@@ -56,7 +56,7 @@ export const applySort = (products: ProductType[], sortOption: string): ProductT
       )
       break
     case 'createdAt|asc':
-      updatedProducts = [...products].sort(
+      updatedProducts = products.toSorted(
         (firstProduct: ProductType, secondProduct: ProductType) => {
           if (
             new Date(secondProduct.createdAt).getTime() > new Date(firstProduct.createdAt).getTime()
