@@ -275,7 +275,9 @@ const Results = ({ products, onProductDeleted }: Props) => {
                 const isProductSelected = selectedProducts.includes(product._id)
                 const imageUrl =
                   product.image?.data &&
-                  `http://localhost:3500/product/image/${product._id}?${new Date().getTime()}`
+                  `admin-dashboard-backend-production-d88e.up.railway.app/product/image/${
+                    product._id
+                  }?${new Date().getTime()}`
                 return (
                   <TableRow hover key={product._id} selected={isProductSelected}>
                     <TableCell padding="checkbox">
