@@ -275,7 +275,7 @@ const Results = ({ products, onProductDeleted }: Props) => {
                 const isProductSelected = selectedProducts.includes(product._id)
                 const imageUrl =
                   product.image?.data &&
-                  `admin-dashboard-backend-production-d88e.up.railway.app/product/image/${
+                  `https://admin-dashboard-backend-production-d88e.up.railway.app/product/image/${
                     product._id
                   }?${new Date().getTime()}`
                 return (
